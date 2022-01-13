@@ -24,21 +24,20 @@ if (!isset($_SESSION['user'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
-    <script src="main.js"></script>
     <title>TRANG NỘI BỘ CÔNG TY</title>
 </head>
 
 <body>
-    <?php require_once "navbar.php" ?>
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-3 p-0">
+            <div class="col-3 p-0" id="sidebar_space">
                 <?php require_once "sidebar.php" ?>
             </div>
 
-            <div class="col-9">
+            <div class="col-9" id="content_space">
                 <?php
                 if (isset($_GET['type']) && isset($_GET['action'])) {
                     $type = $_GET['type'];
@@ -70,6 +69,8 @@ if (!isset($_SESSION['user'])) {
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
+    <script src="main.js"></script>
+
 </body>
 
 </html>

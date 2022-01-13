@@ -98,15 +98,15 @@ if (isset($_POST['btn-submit'])) {
                 ";
             $conn->query($sql) or die($conn->error);
         }
-        header("Location: ?type=employee&action=view");
     }
+    header("Location: ?type=employee&action=view");
 }
 
 ?>
 <script type="text/javascript">var employee =<?php echo json_encode($amount); ?>;</script>
 <!-- Input form -->
 <form method="POST" name="employee" id="employee">
-    <div class="alert alert-danger text-center  " style="display: none;" id="errorMessage">
+    <div class="alert alert-danger text-center" style="display: none;" id="errorMessage">
     </div>
     <div class="form-group">
         <label for="username">Tên người dùng</label>
@@ -139,8 +139,8 @@ if (isset($_POST['btn-submit'])) {
     </div>
 
     <div class="form-group">
-        <label for="id_department">Phòng ban</label>
-        <select name="name_department" id="department" <?php if (!empty($name_department)) echo 'disabled'; else echo '' ?>>
+        <label for="name_department">Phòng ban</label>
+        <select id="name_department" name="name_department" id="department" <?php if (!empty($name_department)) echo 'disabled'; else echo '' ?>>
             <?php
                 foreach($department as $department) {
                     if ($department['name_department'] == $name_department) {
@@ -153,6 +153,26 @@ if (isset($_POST['btn-submit'])) {
             ?>
         </select>
     </div>
-    <button id="submit" name="btn-submit" type="submit" class="btn btn-success">Tạo</button>
+
+    <button type="button" data-toggle="modal" data-target="#add_employee" class="btn btn-success">Thêm</button>
+
+    <div class="modal fade" id="add_employee">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Xác nhận</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    Thêm thông tin
+                </div>
+                <div class="modal-footer">
+                <button name="btn-submit" type="submit" class="btn btn-success">Xác nhận</button>
+                <button data-dismiss="modal" class="btn btn-secondary">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 

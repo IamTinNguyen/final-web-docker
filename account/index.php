@@ -6,7 +6,11 @@ require_once "db.php";
 $session = $_SESSION['user'][0]['id_account'];
 $conn = open_database();
 
-$sql = "SELECT * FROM employee WHERE id_account = $session";
+$sql = "SELECT employee.*,name_department,name_role 
+        FROM employee,department,role 
+        WHERE id_employee= $session 
+        AND employee.id_role = role.id_role
+        AND employee.id_department = department.id_department";
 
 $result = $conn->query($sql);
 
@@ -19,21 +23,48 @@ while ($row = $result->fetch_assoc()) {
 
 <table class="table table-hover">
     <?php
-    $index = 0;
     foreach ($output as $value) {
         echo '
-                <div class="card">
-                    <div class="container card-body ">' . "Họ tên: " . $value['full_name'] . '</div>
-                    <div class="container card-body ">' . "Email: " . ($value['email'] == NULL ? 'Chưa có' : $value['email']) . '</div>
-                    <div class="container card-body ">' . "Số điện thoại: " . ($value['phone_number'] == NULL ? 'Chưa có' : $value['phone_number']) . '</div>
-                    <div class="container card-body ">' . "Địa chỉ: " . ($value['address'] == NULL ? 'Chưa có' : $value['address']) . '</div>
-                    <div class="container card-body ">' . "Lương: " . ($value['salary'] == NULL ? 'Chưa có' : $value['salary']) . '</div>
-                    <div class="card-body">
-                        <a href="?type=account&action=add&id=' . $value['id_employee'] . '" class="btn btn-sm btn-success">
-                            Chỉnh sửa
-                        </a>
-                    </div>
-                </div >
+            <form>
+                <div class="form-group">
+                    <label for="username">Họ và tên:</label>
+                    <input id="username" value="'.$value['full_name'].'" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input id="email" value="'.$value['email'].'" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Điện thoại:</label>
+                    <input id="phone" value="+84'.$value['phone_number'].'" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Địa chỉ:</label>
+                    <input id="phone" value="'.$value['address'].'" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="salary">Lương:</label>
+                    <input id="salary" value="'.$value['salary'].'" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Phòng ban:</label>
+                    <input id="department" value="'.$value['name_department'].'" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Phòng ban:</label>
+                    <input id="role" value="'.$value['name_role'].'" class="form-control" disabled>
+                </div>
+
+                <a href="?type=account&action=add&id=' . $value['id_employee'] . '" class="btn btn-success">
+                    Chỉnh sửa
+                </a>
+            </form>
             ';
     }
     ?>

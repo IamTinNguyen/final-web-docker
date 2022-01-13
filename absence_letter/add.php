@@ -63,13 +63,32 @@ if (isset($_POST['btn-submit'])) {
 
         $conn->query($sql) or die($conn->error);
     }
+    $sql = "SELECT * FROM letter";
+
+    $result = $conn->query($sql);
+
+    while ($row = $result->fetch_assoc()) {
+        $amount[] = $row;
+    }
+    $id_letter = count($amount);
+    $count_files = count($_FILES['upload-file-submit']['name']);
+    for ($i = 0; $i < $count_files; $i++) {
+        $file_name = $_FILES['upload-file-submit']['name'][$i];
+        move_uploaded_file($_FILES['upload-file-submit']['tmp_name'][$i], 'uploads/' . $file_name);
+        $sql = "
+            INSERT into letter_file(id_letter,file_name)
+            VALUES($id_letter,'$file_name')
+        ";
+        $conn->query($sql) or die($conn->error);;
+    } /* var_dump($_FILES); */
     header("Refresh:0");
 }
 ?>
 <h3 id="tittle" class="my-3 text-center">ĐƠN NGHỈ PHÉP</h3>
-<h5 id="day_off" class="my-3 text-left">Số ngày nghỉ phép của bạn: <?= $default_day_off ?></h5>
-<h5 id="day_off" class="my-3 text-left">Số ngày nghỉ phép đã dùng: <?= $used_days ?></h5>
-<h5 id="day_off" class="my-3 text-left">Số ngày nghỉ phép còn lại: <?= $days_left ?></h5>
+<h5 id="day_off_default" class="my-3 text-left">Số ngày nghỉ phép của bạn: <?= $default_day_off ?></h5>
+<h5 id="day_off_used" class="my-3 text-left">Số ngày nghỉ phép đã dùng: <?= $used_days ?></h5>
+<h5 id="day_off_left" class="my-3 text-left">Số ngày nghỉ phép còn lại: <?= $days_left ?></h5>
+
 <table id="letter_list" class="table table-hover">
     <thead>
         <tr>
@@ -104,7 +123,7 @@ if (isset($_POST['btn-submit'])) {
 <h5 class="my-3 text-danger"><?= $error ?></h5>
 <button id="btn-add" name="btn-add" type="button" <?php if (($default_day_off == 0) || ($hourDiff < 7)) echo 'disabled';
                                                     else echo '' ?> class="btn btn-primary">Tạo đơn mới</button>
-<form id="absence_letter" method="POST" hidden>
+<form id="absence_letter" method="POST" hidden enctype="multipart/form-data">
     <div class="form-group">
         <label for="tittle_letter">Tiêu đề</label>
         <input name="tittle_letter" type="text" class="form-control" placeholder="Tiêu đề" required>
@@ -126,7 +145,7 @@ if (isset($_POST['btn-submit'])) {
 
     <div class="form-group">
         <label for="day_off">Số ngày nghỉ</label>
-        <select name="day_off" id="day_off">
+        <select name="day_off" id="day_off" class="form-select">
             <?php
             for ($i = 1; $i <= $default_day_off; $i++) {
                 echo "<option>$i</option>";
@@ -139,12 +158,30 @@ if (isset($_POST['btn-submit'])) {
         <div class='custom-file'>
             <input onchange='FilevalidationLetter()' rules='required' id='file_letter_submit' name='upload-file-submit[]' multiple type='file' class='custom-file-input'>
             <label class='custom-file-label' for='customFile'>Choose file</label>
-
         </div>
         <span id='size2' style='color: #f33a58;' class='form-message'></span>
-
     </div>
 
-    <button id="btn-back" name="btn-back" type="submit" class="btn btn-danger">Quay lại</button>
-    <button id="btn_letter_submit" name="btn-submit" type="submit" class="btn btn-primary">Gửi</button>
+    <button id="btn-back" name="btn-back" type="button" class="btn btn-danger">Quay lại</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#send_letter">Gửi</button>
+
+    <div class="modal fade" id="send_letter">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Xác nhận</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    Xác nhận gửi đơn 
+                </div>
+
+                <div class="modal-footer">
+                    <button id="btn_letter_submit" name="btn-submit" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#send_letter">Gửi</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

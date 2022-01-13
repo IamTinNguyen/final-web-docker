@@ -97,4 +97,24 @@ if (isset($_POST['btn-submit'])) {
         <input value="<?= !empty($name_role) ? $name_role : '' ?>" name="name_role" type="text" class="form-control" disabled>
     </div>
 
-    <button name="btn-submit" type="submit" class="btn btn-primary">Lưu lại</button>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#change_info">Lưu lại</button>
+
+    <div class="modal fade" id="change_info">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Xác nhận</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    Sửa thông tin?
+                </div>
+                <div class="modal-footer">
+                <button name="btn-submit" type="submit" class="btn btn-success">Xác nhận</button>
+                <button data-dismiss="modal" class="btn btn-secondary">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

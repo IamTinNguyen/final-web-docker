@@ -2,7 +2,6 @@
 error_reporting(E_ERROR | E_PARSE);
 
 require_once "db.php";
-
 $output = [];
 $role = $_SESSION['user'][0]['id_role'];
 $department = $_SESSION['user'][0]['id_department'];
@@ -12,24 +11,25 @@ if ($role == 1) {
         SELECT letter.*,full_name 
         FROM letter,employee 
         WHERE letter.id_employee = employee.id_employee AND id_role = 2 AND id_department = $department
-        ORDER BY day_sent DESC
-        ORDER BY letter_status ASC
+        ORDER BY day_sent DESC, letter_status ASC
         ";
     $result = $conn->query($sql);
+    while ($row = $result->fetch_assoc()) {
+        $output[] = $row;
+    }
 }
 if ($role == 0) {
     $sql = "
             SELECT letter.*,full_name 
             FROM letter,employee 
             WHERE letter.id_employee = employee.id_employee AND id_role = 1
-            ORDER BY day_sent DESC";
+            ORDER BY day_sent DESC, letter_status ASC";
     $result = $conn->query($sql);
+    while ($row = $result->fetch_assoc()) {
+        $output[] = $row;
+    }
 }
 
-
-while ($row = $result->fetch_assoc()) {
-    $output[] = $row;
-}
 
 ?>
 
@@ -52,7 +52,6 @@ while ($row = $result->fetch_assoc()) {
         $index = 0;
         if ($output == null) {
             echo '<th colspan="7" class="text-center">Chưa có đơn xin nghỉ phép</th>';
-            return;
         }
         foreach ($output as $value) {
             echo '

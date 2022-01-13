@@ -21,7 +21,6 @@ if (isset($_GET['id_task'])) {
     while ($row = $result->fetch_assoc()) {
         $output[] = $row;
     }
-    var_dump($output);
     $title = $output[0]['title_task'];
     $content = $output[0]['content_task'];
     $manager = $output[0]['id_manager'];
@@ -169,27 +168,46 @@ if (isset($_GET['id_task'])) {
                 }
                 if ($status_saver == 0 || $status_saver == 4) {
 
-                    echo "<div class='row mt-3'>
-                    <label for='content'>Ảnh đính kèm</label>
 
-                    ";
-                    foreach ($output_files as $fileItem) {
-                        $file_name = $fileItem['file'];
-                        echo "
-
-                        <div class='col'>
-                        <div class='form-group'>
-                            <a href='/uploads/$file_name' download='Image'><img src='/uploads/$file_name' alt='thumbnail' width='240'></a>
-                            
-                        </div>
-                        </div>
-
-                        
-                    ";
+                    echo '
+                        <h6 class="mt-4 mb-2">Danh sách tệp đính kèm mà trưởng phòng gửi:</h6>
+                        <table class="mt-2 table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Tên tệp đính kèm</th>
+                                    <th scope="col" class="text-center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        ';
+                    if (isset($output_files[0]['file'])) {
+                        $index = 0;
+                        foreach ($output_files as $submission_file) {
+                            echo '
+                                <tr>
+                                    <th scope="row">' . ++$index . '</th>
+                                    <td>' . $submission_file['file'] . '</td>
+                                    <td class="text-center">
+                                    <a href="uploads/' . $submission_file['file'] . '" download="' . $submission_file['file'] . '" class="btn btn-sm btn-danger">Download</a>
+                                </tr>
+                            ';
+                        }
+                    } else {
+                        echo '
+                            <tr>
+                                <td class="text-center" colspan="3">Chưa có tệp đính kèm</td>
+                            </tr>
+                        ';
                     }
-                    echo "</div>";
+
+                    echo '
+                        </tbody>
+                    </table>
+                    <hr>
+                    ';
                 }
-                if (isset($_POST['btn-task-status'])) {
+                if (isset($_POST['btn-task-submit-ok'])) {
                     if ($status_saver != 2 && $status_saver != 4) {
                         if ($status_saver == 0) {
                             $status_saver = $status_saver + 2;
@@ -198,16 +216,17 @@ if (isset($_GET['id_task'])) {
                         }
 
                         $currentDate = new DateTime();
-                        $currentDate = $currentDate->format('d-m-Y H:i:s');
+                        $currentDate = $currentDate->format('Y-m-d H:i:s');
                         $sql = "
-                                INSERT INTO `task_progress` (`id_task_progress`, `id_task`, `file`, `id_status`, `time_progress`) 
-                                VALUES (NULL, '$id_task', NULL, '$status_saver', '$currentDate');
+                                INSERT INTO `task_progress` (`id_task_progress`, `id_task`, `file`, `id_status`, `time_progress`, `submission_content`, `feedback`) 
+                                VALUES (NULL, '$id_task', 'sd', '$status_saver', '$currentDate', NULL, NULL);
                             ";
                         $result = $conn->query($sql);
+                        var_dump($sql);
                         header('Location: index.php?type=task_employee&action=view');
                     }
                 }
-                if (isset($_POST['content-submit']) && isset($_FILES['upload-file-submit']) && isset($_POST['btn-task-submit'])) {
+                if (isset($_POST['content-submit']) && isset($_FILES['upload-file-submit']) && isset($_POST['btn-task-submit-ok'])) {
                     $status_saver = 3;
                     $submission_content = $_POST['content-submit'];
                     $time_progress = date("Y-m-d");
@@ -229,8 +248,26 @@ if (isset($_GET['id_task'])) {
                     <form method='POST' >
                         <div class='text-right mt-3'>
                             <a class='btn btn-primary' href='?type=task_employee&action=view' role='button'>Trở về</a>
-                            <input id='btn_status' class='btn btn-outline-$button_style_status' type='submit' name='btn-task-status' value='$status_button' $isDisabled>
+                            <input id='btn_status' data-toggle='modal' data-target='#confirm-employee-nonsubmit' class='btn btn-outline-$button_style_status' type='button' value='$status_button' $isDisabled>
                         </div>
+                        <div class='modal fade show' id='confirm-employee-nonsubmit'>
+                        <div class='modal-dialog'>
+                            <div class='modal-content'>
+                                <div class='modal-header'>
+                                    <h4 class='modal-title'>Submit nhiệm vụ</h4>
+                                    <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                </div>
+
+                                <div class='modal-body'>
+                                    Bạn có chắc rằng muốn submit nhiệm vụ không?
+                                </div>
+                                <div class='modal-footer'>
+                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-danger'  name='btn-task-status'>Đồng ý</button>
+                                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </form>";
                 $print_feeback = "
                     <div class='form-group'>
@@ -261,7 +298,25 @@ if (isset($_GET['id_task'])) {
                         
                     </div>
                     <div class='text-right'>
-                        <button id='btn-employee-submit' name='btn-task-submit' type='submit' class='btn btn-primary mt-2'>Submit</button>
+                        <button id='btn-employee-submit' data-target='#confirm-employee-submit' name='btn-task-submit' type='button' class='btn btn-primary mt-2'>Submit</button>
+                    </div>
+                    <div class='modal fade' id='confirm-employee-submit'>
+                        <div class='modal-dialog'>
+                            <div class='modal-content'>
+                                <div class='modal-header'>
+                                    <h4 class='modal-title'>Submit nhiệm vụ</h4>
+                                    <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                </div>
+
+                                <div class='modal-body'>
+                                    Bạn có chắc rằng muốn submit nhiệm vụ không?
+                                </div>
+                                <div class='modal-footer'>
+                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-danger'>Đồng ý</button>
+                                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Hủy</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
                     ";

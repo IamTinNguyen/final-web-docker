@@ -81,9 +81,7 @@ $(document).ready(function () {
             $(this).attr('data-toggle', 'modal');
         }
     })
-    $("#form_employee_submit").submit(function () {
-        alert("Bạn vừa submit thành công");
-    })
+    $("#btn-")
     $("#btn-employee-submit").click(function (e) {
         var contentSubmitField = $("#content_employee_submit");
         var wrapperContentSubmitField = $("#content_employee_submit_wrapper");
@@ -93,27 +91,29 @@ $(document).ready(function () {
         if (contentSubmitField.val() == '') {
             contentSubmitField.addClass('is-invalid');
 
+            $(this).removeAttr('data-toggle');
             if ($(".invalid-feedback").length == 0) {
-                wrapperContentSubmitField.append('<div class="invalid-feedback">Vui lòng nhập phản hồi trước khi bác bỏ nhiệm vụ này!</div>');
+                wrapperContentSubmitField.append('<div class="invalid-feedback">Vui lòng nhập phản hồi trước khi submit nhiệm vụ này!</div>');
             }
             var tmp1 = false;
             return e.preventDefault();
         } else {
             contentSubmitField.removeClass('is-invalid');
+            $(this).attr('data-toggle', 'modal');
         }
         console.log($(".invalid-feedback").length);
         if (fileSubmitField.val() == '') {
             fileSubmitField.addClass('is-invalid');
+
+            $(this).removeAttr('data-toggle');
             if ($(".error-file").length == 0) {
                 wrapperFileSubmitField.append('<div class = "error-file" style = "color: #f33a58;">Vui lòng chọn file trước khi submit form!</div>');
 
             }
-
-
-
             return e.preventDefault();
         } else {
             fileSubmitField.removeClass('is-invalid');
+            $(this).attr('data-toggle', 'modal');
         }
     })
     $("#employee").submit(e => {
@@ -122,14 +122,17 @@ $(document).ready(function () {
         for (var i = 0; i < employee.length; i++) {
             username_list.push(employee[i].username);
         }
-        if (username.length < 6) {
-            e.preventDefault();
-            displayError("Username too short")
+        if ($("#username").prop('readonly') == false) {
+            if (username.length < 6) {
+                e.preventDefault();
+                displayError("Tên người dùng quá ngắn, vui lòng nhập lại")
+            }
+            if (username_list.includes(username)) {
+                e.preventDefault();
+                displayError("Tên người dùng đã tồn tại, xin chọn tên khác")
+            }
         }
-        if (username_list.includes(username)) {
-            e.preventDefault();
-            displayError("Username da ton tai")
-        }
+        $("#name_department").removeAttr('disabled')
     })
 
     function displayError(message) {
@@ -141,14 +144,20 @@ $(document).ready(function () {
         $("#absence_letter").removeAttr('hidden')
         $("#letter_list").attr('hidden', true)
         $("#btn-add").attr('hidden', true)
-        $("#day_off").attr('hidden', true)
+        $("#header").removeAttr('hidden')
+        $("#day_off_default").attr('hidden', true)
+        $("#day_off_used").attr('hidden', true)
+        $("#day_off_left").attr('hidden', true)
     })
 
     $("#btn-back").click(function () {
         $("#absence_letter").attr('hidden', true)
         $("#letter_list").removeAttr('hidden')
         $("#btn-add").removeAttr('hidden')
-        $("#day_off").removeAttr('hidden')
+        $("#header").removeAttr('hidden')
+        $("#day_off_default").removeAttr('hidden')
+        $("#day_off_used").removeAttr('hidden')
+        $("#day_off_left").removeAttr('hidden')
     })
 
 
@@ -171,20 +180,17 @@ Filevalidation = () => {
             fileTotalSize = fileTotalSize + file;
             console.log(fileTotalSize);
             // The size of the file.
-
         }
         if (fileTotalSize >= 5120) {
             document.getElementById('size').innerHTML = 'File quá lớn, vui lòng chọn file nhỏ hơn 5Mb!';
             btnEmployeeSubmit.disabled = true;
 
         } else {
+            document.getElementById('size').innerHTML = '';
             btnEmployeeSubmit.disabled = false;
-
         }
-        console.log(fileTotalSize);
     }
 }
-
 FilevalidationLetter = () => {
     const fi = document.getElementById('file_letter_submit');
     const btnEmployeeSubmit = document.getElementById('btn_letter_submit');
@@ -206,9 +212,29 @@ FilevalidationLetter = () => {
             btnEmployeeSubmit.disabled = true;
 
         } else {
+            document.getElementById('size2').innerHTML = '';
             btnEmployeeSubmit.disabled = false;
 
         }
         console.log(fileTotalSize);
     }
 }
+let arrow = document.querySelectorAll(".arrow");
+for (var i = 0; i < arrow.length; i++) {
+    arrow[i].addEventListener("click", (e) => {
+        let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+        arrowParent.classList.toggle("showMenu");
+    });
+}
+
+let sidebar = document.querySelector(".sidebar");
+let sidebarBtn = document.querySelector(".bx-menu");
+let sidebarSpace = document.querySelector("#sidebar_space");
+let contentSpace = document.querySelector("#content_space");
+
+
+console.log(sidebarBtn);
+sidebarBtn.addEventListener("click", () => {
+
+    sidebar.classList.toggle("close");
+});
