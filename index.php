@@ -8,8 +8,45 @@ if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit();
 }
-?>
 
+require_once "db.php";
+
+function checkPrivilege($uri = false)
+{
+    $sql = '
+        SELECT      regrex 
+        FROM        `role_privilege` 
+        INNER JOIN  privilege_detail 
+        ON          role_privilege.id_privilege = privilege_detail.id_privilege 
+        WHERE       id_role = ' . $_SESSION['user'][0]['id_role'];
+
+    $conn = open_database();
+    $result = $conn->query($sql);
+
+    while ($row = $result->fetch_assoc()) {
+        $privilege_arr[] = $row;
+    }
+
+    if (!isset($_SESSION['user']['privileges'])) {
+        foreach ($privilege_arr as $privilege) {
+            $_SESSION['user']['privileges'][] = $privilege['regrex'];
+        }
+    }
+
+    $uri = ($uri != false) ? $uri : $_SERVER['REQUEST_URI'];
+
+    $privileges = implode("|", $_SESSION['user']['privileges']);
+    preg_match('/index\.php$|index\.php\?type=account&action=add&id=\d+$|index\.php\?type=account&action=view$|index\.php\?type=dashboard$|index\.php\?type=reset_password$|index\.php\?type=logout$|' . $privileges . '/', $uri, $matches);
+    return !empty($matches);
+}
+
+$privilegeResult = checkPrivilege();
+
+if (!$privilegeResult) {
+    header("Location:index.php");
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,6 +96,8 @@ if (!isset($_SESSION['user'])) {
                     require_once($url);
                 } else if (isset($_GET['type'])) {
                     require_once($_GET['type'] . '.php');
+                } else {
+                    require_once "dashboard.php";
                 }
                 ?>
             </div>

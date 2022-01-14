@@ -105,7 +105,7 @@ if (isset($_POST['btn-submit'])) {
                 INSERT INTO task(title_task, content_task, id_manager, id_employee, deadline) 
                 VALUES('$title_task', '$content_task', $id_manager, $id_employee, '$deadline_task')
             ";
-            // die($sql);
+
             $conn->query($sql);
             $id_task = $conn->insert_id;
             $time_progress = date("Y-m-d H:i:s");
@@ -122,15 +122,16 @@ if (isset($_POST['btn-submit'])) {
             }
         }
         header("Location: ?type=task_management&action=view");
-    } 
+    }
 }
+
 ?>
 
 <h3 class="my-3 text-center text-uppercase"><?= empty($id_old_task) ? 'THÊM MỘT NHIỆM VỤ MỚI' : 'CHỈNH SỬA NHIỆM VỤ "' . $task_detail[0]['title_task'] . '"' ?></h3>
 <form id="add-task" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
+    <div id="employee-slt-box-wrapper" class="form-group">
         <label for="name-employee">Tên nhân viên</label>
-        <select name="id_employee" class="form-select">
+        <select id="employee-slt-box" name="id_employee" class="form-select">
             <option selected>Chọn nhân viên sẽ nhận nhiệm vụ</option>
             <?php
             foreach ($employees as $employee) {
@@ -145,18 +146,18 @@ if (isset($_POST['btn-submit'])) {
     </div>
 
     <div class="form-group">
-        <label for="tittle-task">Tiêu đề nhiệm vụ</label>
-        <input value="<?= !empty($title_task) ? $title_task : '' ?>" name="title_task" type="text" class="form-control" placeholder="Nhập tên nhiệm vụ">
+        <label for="title-task">Tiêu đề nhiệm vụ</label>
+        <input required value="<?= !empty($title_task) ? $title_task : '' ?>" name="title_task" id="title-task" type="text" class="form-control" placeholder="Nhập tên nhiệm vụ">
     </div>
 
     <div class="form-group">
         <label for="content-task">Mô tả chi tiết</label>
-        <textarea name="content_task" class="form-control" rows="3"><?= !empty($content_task) ? $content_task : '' ?></textarea>
+        <textarea required name="content_task" class="form-control" rows="3"><?= !empty($content_task) ? $content_task : '' ?></textarea>
     </div>
 
     <div class="form-group">
         <label for="deadline-task">Thời gian deadline</label>
-        <input value="<?= !empty($deadline) ? date("Y-m-d\TH:i:s", strtotime($deadline)) : '' ?>" name="deadline_task" type="datetime-local" class="form-control">
+        <input required value="<?= !empty($deadline) ? date("Y-m-d\TH:i:s", strtotime($deadline)) : '' ?>" name="deadline_task" id="deadline-task" type="datetime-local" class="form-control">
     </div>
 
     <div class="form-group">
@@ -168,5 +169,5 @@ if (isset($_POST['btn-submit'])) {
         </div>
     </div>
 
-    <button name="btn-submit" type="submit" class="btn btn-primary">Submit</button>
+    <button id="add-task-btn" name="btn-submit" type="submit" class="btn btn-primary">Submit</button>
 </form>

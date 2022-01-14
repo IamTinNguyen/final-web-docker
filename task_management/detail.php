@@ -124,13 +124,13 @@ if (isset($_POST['reject-task-btn']) && isset($_POST['feedback'])) {
 </div>
 
 <?php
-    $deadline_arr = explode(" ", $task_detail[0]['deadline']);
-    $day = date("d/m/Y", strtotime($deadline_arr[0]));
+$deadline_arr = explode(" ", $task_detail[0]['deadline']);
+$day = date("d/m/Y", strtotime($deadline_arr[0]));
 ?>
 
 <div class="form-group">
     <h5 class="mt-1">Thời gian deadline:</h5>
-    <input disabled value="<?= $day.' '.$deadline_arr[1] ?>" type="text" class="form-control">
+    <input disabled value="<?= $day . ' ' . $deadline_arr[1] ?>" type="text" class="form-control">
 </div>
 
 <?php
@@ -174,7 +174,9 @@ if ($id_status  > 2) {
                 <tr>
                     <th scope="row">' . ++$index . '</th>
                     <td>' . $submission_file['file'] . '</td>
-                    <td class="text-center"><img height="150px" src="uploads/' . $submission_file['file'] . '"></td>
+                    <td class="text-center">
+                        <a href="uploads/' . $submission_file['file'] . '" download="' . $submission_file['file'] . '" class="btn btn-sm btn-danger">Download</a>
+                    </td>
                 </tr>
             ';
         }
@@ -202,7 +204,6 @@ if ($id_status == 0) {
     ';
 }
 
-var_dump($id_status);
 if ($id_status == 3) {
     $sql = "
         SELECT IF (
@@ -226,7 +227,7 @@ if ($id_status == 3) {
 
     $turn_in_result = array_values($turn_in_result_arr[0])[0];
     $rate_flag = '';
-    if($turn_in_result == 1) {
+    if ($turn_in_result == 1) {
         $rate_flag = 'disabled';
     }
 
@@ -258,7 +259,7 @@ if ($id_status == 3) {
                     <option value=0 selected>Vui lòng đánh giá nhân viên này</option>
                     <option value=1>Bad</option>
                     <option value=2>Ok</option>
-                    <option '.$rate_flag.' value=3>Good</option>
+                    <option ' . $rate_flag . ' value=3>Good</option>
                 </select>
             </div>
 
@@ -365,7 +366,7 @@ foreach ($time_stamp_arr as $time_stamp) {
     if (isset($history_arr[0]['feedback'])) {
         $current_feedback = $history_arr[0]['feedback'];
     }
-    
+
     $current_submission_content = $history_arr[0]['submission_content'];
 
     $file_is_uploaded = false;
@@ -424,7 +425,7 @@ foreach ($time_stamp_arr as $time_stamp) {
                     <tr>
                         <th scope="col">STT</th>
                         <th scope="col">Tên tệp đính kèm</th>
-                        <th scope="col" class="text-center">Nội dung tệp</th>
+                        <th scope="col" class="text-center">Thao tác</th>
                     </tr>
                 </thead>
             <tbody>
@@ -437,7 +438,9 @@ foreach ($time_stamp_arr as $time_stamp) {
                 <tr>
                     <th scope="row">' . ++$index . '</th>
                     <td>' . $history_value['file'] . '</td>
-                    <td class="text-center"><img height="150px" src="uploads/' . $history_value['file'] . '"></td>
+                    <td class="text-center">
+                        <a href="uploads/' . $history_value['file'] . '" download="' . $history_value['file'] . '" class="btn btn-sm btn-danger">Download</a>
+                    </td>
                 </tr>
             ';
         }

@@ -161,7 +161,51 @@ $(document).ready(function () {
     })
 
 
+    $("#add-task-btn").click(function (e) {
+        var idEmployeeWrapper = $("#employee-slt-box-wrapper");
+        var idEmployeeField = $("#employee-slt-box");
+        var is_invalid = false;
 
+        if (idEmployeeField.val() == 'Chọn nhân viên sẽ nhận nhiệm vụ') {
+            idEmployeeField.addClass('is-invalid');
+            if ($("#employee-slt-box-msg").length == 0) {
+                idEmployeeWrapper.append('<div id="employee-slt-box-msg" class="invalid-feedback">Vui lòng chọn một nhân viên cụ thể!</div>');
+            }
+            e.preventDefault();
+        }
+    })
+
+    $("#appoint-manager-btn").click(function () {
+        var departmentField = $("#department-select-box");
+        var departmentWrapper = $("#department-name-wrapper");
+        var employeeField = $("#employee-select-box");
+
+        if (departmentField.val() == "Chọn tên phòng ban") {
+            departmentField.addClass('is-invalid');
+            if ($("#employee-msg").length == 0) {
+                departmentWrapper.append('<div id="employee-msg" class="invalid-feedback">Vui lòng chọn tên phòng ban!</div>');
+            }
+        } else {
+            departmentField.children().each(function (departmentOptionIndex, departmentOptionValue) {
+                if (departmentOptionValue.getAttribute('value') == departmentField.val()) {
+                    const selectedDepartmentName = departmentOptionValue.getAttribute("department-name");
+                    $("#confirm-appoint-manager .modal-dialog .modal-body").attr("department-name", selectedDepartmentName);
+                }
+            })
+
+            employeeField.children().each(function (employeeOptionIndex, employeeOptionValue) {
+                if (employeeOptionValue.getAttribute('value') == employeeField.val()) {
+                    const selectedEmployeeName = employeeOptionValue.getAttribute("employee-name");
+                    $("#confirm-appoint-manager .modal-dialog .modal-body").attr("employee-name", selectedEmployeeName);
+                }
+            })
+
+            $(this).attr("data-toggle", "modal");
+
+            var confirmMessageBox = $("#confirm-appoint-manager .modal-dialog .modal-body");
+            confirmMessageBox.html("Bạn có chắc rằng muốn bổ nhiệm <strong>" + confirmMessageBox.attr("employee-name") + " </strong>làm trưởng phòng của<strong> " + confirmMessageBox.attr("department-name") + " </strong>không?");
+        }
+    })
 
 })
 

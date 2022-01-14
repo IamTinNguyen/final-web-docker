@@ -7,7 +7,7 @@ $conn = open_database();
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "SELECT * FROM department WHERE id_department=" . $id;
-    
+
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
         $output[] = $row;
@@ -47,22 +47,22 @@ if (isset($_POST['btn-submit'])) {
 
 ?>
 
-<h3 class="my-3 text-center">THÊM MỘT PHÒNG BAN MỚI</h3>
+<h3 class="my-3 text-center"><?= !isset($_GET['id']) ? 'THÊM MỘT PHÒNG BAN MỚI' : 'CHỈNH SỬA PHÒNG BAN' ?></h3>
 
 <form method="POST">
     <div class="form-group">
         <label for="name-department">Tên phòng ban</label>
-        <input value="<?= !empty($name_department) ? $name_department : '' ?>" name="name-department" type="text" class="form-control" placeholder="Nhập tên phòng ban">
+        <input required value="<?= !empty($name_department) ? $name_department : '' ?>" name="name-department" type="text" class="form-control" placeholder="Nhập tên phòng ban">
     </div>
 
     <div class="form-group">
         <label for="description">Mô tả</label>
-        <textarea name="description" class="form-control" rows="3"><?= !empty($description) ? $description : '' ?></textarea>
+        <textarea required name="description" class="form-control" rows="3"><?= !empty($description) ? $description : '' ?></textarea>
     </div>
 
     <div class="form-group">
         <label for="room">Số phòng</label>
-        <input value="<?= !empty($room) ? $room : '' ?>" name="room" type="text" class="form-control" placeholder="Nhập số phòng">
+        <input required value="<?= !empty($room) ? $room : '' ?>" name="room" type="text" class="form-control" placeholder="Nhập số phòng">
     </div>
 
     <button name="btn-submit" type="submit" class="btn btn-primary">Submit</button>
