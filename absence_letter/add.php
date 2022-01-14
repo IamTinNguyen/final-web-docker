@@ -84,10 +84,21 @@ if (isset($_POST['btn-submit'])) {
     header("Refresh:0");
 }
 ?>
-<h3 id="tittle" class="my-3 text-center">ĐƠN NGHỈ PHÉP</h3>
-<h5 id="day_off_default" class="my-3 text-left">Số ngày nghỉ phép của bạn: <?= $default_day_off ?></h5>
-<h5 id="day_off_used" class="my-3 text-left">Số ngày nghỉ phép đã dùng: <?= $used_days ?></h5>
-<h5 id="day_off_left" class="my-3 text-left">Số ngày nghỉ phép còn lại: <?= $days_left ?></h5>
+<h2 class="title text-center text-uppercase mt-5 mb-5 pr-5" style="font-family:sans-serif;"><b>ĐƠN NGHỈ PHÉP</b></h2>
+
+
+<div class="pl-5 pr-5 mr-5 ml-5">
+    <div class="alert alert-secondary text-center" role="alert">
+        Số ngày nghỉ phép của bạn: <?= $default_day_off ?>
+    </div>
+    <div class="alert alert-secondary text-center" role="alert">
+        Số ngày nghỉ phép đã dùng: <?= $used_days ?>
+    </div>
+    <div class="alert alert-secondary text-center" role="alert">
+        Số ngày nghỉ phép còn lại: <?= $days_left ?>
+    </div>
+</div>
+
 
 <table id="letter_list" class="table table-hover">
     <thead>
@@ -121,67 +132,83 @@ if (isset($_POST['btn-submit'])) {
 </table>
 
 <h5 class="my-3 text-danger"><?= $error ?></h5>
-<button id="btn-add" name="btn-add" type="button" <?php if (($default_day_off == 0) || ($hourDiff < 7)) echo 'disabled';
-                                                    else echo '' ?> class="btn btn-primary">Tạo đơn mới</button>
+<div class="text-center">
+    <button id="btn-add" name="btn-add" type="button" <?php if (($default_day_off == 0) || ($hourDiff < 7)) echo 'disabled';
+                                                        else echo '' ?> class="btn btn-dark">Tạo đơn mới</button>
+</div>
+
 <form id="absence_letter" method="POST" hidden enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="tittle_letter">Tiêu đề</label>
-        <input name="tittle_letter" type="text" class="form-control" placeholder="Tiêu đề" required>
-    </div>
-
-    <div class="form-group">
-        <label for="content_letter">Nội dung</label>
-        <input name="content_letter" type="text" class="form-control" placeholder="Nội dung" required>
-    </div>
-
-    <div class="form-group">
-        <label for="description">Chi tiết</label>
-        <textarea name="description" type="text" class="form-control"></textarea>
-    </div>
-    <div class="form-group">
-        <label for="day_start">Ngày bắt đầu nghỉ</label>
-        <input name="day_start" type="date" class="form-control" required>
-    </div>
-
-    <div class="form-group">
-        <label for="day_off">Số ngày nghỉ</label>
-        <select name="day_off" id="day_off" class="form-select">
-            <?php
-            for ($i = 1; $i <= $default_day_off; $i++) {
-                echo "<option>$i</option>";
-            }
-            ?>
-        </select>
-    </div>
-    <div class='form-group' id='file_letter_submit_wrapper'>
-        <label for='upload-files'>Các tập tin đính kèm</label>
-        <div class='custom-file'>
-            <input onchange='FilevalidationLetter()' rules='required' id='file_letter_submit' name='upload-file-submit[]' multiple type='file' class='custom-file-input'>
-            <label class='custom-file-label' for='customFile'>Choose file</label>
+    <hr>
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-3" style="font-family:sans-serif;">
+        <div class="card-heading mt-5 mb-5">
+            <h3 class="title text-center text-uppercase"><b>Tạo đơn nghỉ phép</b></h3>
         </div>
-        <span id='size2' style='color: #f33a58;' class='form-message'></span>
-    </div>
-
-    <button id="btn-back" name="btn-back" type="button" class="btn btn-danger">Quay lại</button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#send_letter">Gửi</button>
-
-    <div class="modal fade" id="send_letter">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Xác nhận</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5 p-5">
+                <div class="form-group">
+                    <label for="tittle_letter">Tiêu đề</label>
+                    <input name="tittle_letter" type="text" class="form-control" placeholder="Tiêu đề" required>
                 </div>
 
-                <div class="modal-body">
-                    Xác nhận gửi đơn 
+                <div class="form-group">
+                    <label for="content_letter">Nội dung</label>
+                    <input name="content_letter" type="text" class="form-control" placeholder="Nội dung" required>
                 </div>
 
-                <div class="modal-footer">
-                    <button id="btn_letter_submit" name="btn-submit" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#send_letter">Gửi</button>
-                    <button class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <div class="form-group">
+                    <label for="description">Chi tiết</label>
+                    <textarea name="description" type="text" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="day_start">Ngày bắt đầu nghỉ</label>
+                    <input name="day_start" type="date" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="day_off">Số ngày nghỉ</label>
+                    <select name="day_off" id="day_off" class="form-select">
+                        <?php
+                        for ($i = 1; $i <= $default_day_off; $i++) {
+                            echo "<option>$i</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class='form-group' id='file_letter_submit_wrapper'>
+                    <label for='upload-files'>Các tập tin đính kèm</label>
+                    <div class='custom-file'>
+                        <input onchange='FilevalidationLetter()' rules='required' id='file_letter_submit' name='upload-file-submit[]' multiple type='file' class='custom-file-input'>
+                        <label class='custom-file-label' for='customFile'>Choose file</label>
+                    </div>
+                    <span id='size2' style='color: #f33a58;' class='form-message'></span>
+                </div>
+                <div class="text-right mt-3">
+                    <button id="btn-back" name="btn-back" type="button" class="btn btn-outline-dark">Quay lại</button>
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#send_letter">Gửi</button>
+
+                </div>
+
+                <div class="modal fade" id="send_letter">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Xác nhận</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <div class="modal-body">
+                                Xác nhận gửi đơn
+                            </div>
+
+                            <div class="modal-footer">
+                                <button id="btn_letter_submit" name="btn-submit" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#send_letter">Gửi</button>
+                                <button class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </form>

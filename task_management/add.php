@@ -127,47 +127,58 @@ if (isset($_POST['btn-submit'])) {
 
 ?>
 
-<h3 class="my-3 text-center text-uppercase"><?= empty($id_old_task) ? 'THÊM MỘT NHIỆM VỤ MỚI' : 'CHỈNH SỬA NHIỆM VỤ "' . $task_detail[0]['title_task'] . '"' ?></h3>
-<form id="add-task" method="POST" enctype="multipart/form-data">
-    <div id="employee-slt-box-wrapper" class="form-group">
-        <label for="name-employee">Tên nhân viên</label>
-        <select id="employee-slt-box" name="id_employee" class="form-select">
-            <option selected>Chọn nhân viên sẽ nhận nhiệm vụ</option>
-            <?php
-            foreach ($employees as $employee) {
-                if (isset($id_employee) && ($id_employee == $employee['id_employee'])) {
-                    echo '<option selected value=' . $employee['id_employee'] . '>' . $employee['full_name'] . '</option>';
-                } else {
-                    echo '<option value=' . $employee['id_employee'] . '>' . $employee['full_name'] . '</option>';
-                }
-            }
-            ?>
-        </select>
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-3" style="font-family:sans-serif;">
+    <div class="card-heading mt-5 mb-5">
+        <h2 class="title text-center text-uppercase"><b><?= empty($id_old_task) ? 'THÊM MỘT NHIỆM VỤ MỚI' : 'CHỈNH SỬA NHIỆM VỤ "' . $task_detail[0]['title_task'] . '"' ?></b></h2>
     </div>
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5 p-5">
+            <form id="add-task" method="POST" enctype="multipart/form-data">
 
-    <div class="form-group">
-        <label for="title-task">Tiêu đề nhiệm vụ</label>
-        <input required value="<?= !empty($title_task) ? $title_task : '' ?>" name="title_task" id="title-task" type="text" class="form-control" placeholder="Nhập tên nhiệm vụ">
-    </div>
+                <div id="employee-slt-box-wrapper" class="form-group">
+                    <label for="name-employee">Tên nhân viên</label>
+                    <select id="employee-slt-box" name="id_employee" class="form-select">
+                        <option selected>Chọn nhân viên sẽ nhận nhiệm vụ</option>
+                        <?php
+                        foreach ($employees as $employee) {
+                            if (isset($id_employee) && ($id_employee == $employee['id_employee'])) {
+                                echo '<option selected value=' . $employee['id_employee'] . '>' . $employee['full_name'] . '</option>';
+                            } else {
+                                echo '<option value=' . $employee['id_employee'] . '>' . $employee['full_name'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
 
-    <div class="form-group">
-        <label for="content-task">Mô tả chi tiết</label>
-        <textarea required name="content_task" class="form-control" rows="3"><?= !empty($content_task) ? $content_task : '' ?></textarea>
-    </div>
+                <div class="form-group">
+                    <label for="title-task">Tiêu đề nhiệm vụ</label>
+                    <input required value="<?= !empty($title_task) ? $title_task : '' ?>" name="title_task" id="title-task" type="text" class="form-control" placeholder="Nhập tên nhiệm vụ">
+                </div>
 
-    <div class="form-group">
-        <label for="deadline-task">Thời gian deadline</label>
-        <input required value="<?= !empty($deadline) ? date("Y-m-d\TH:i:s", strtotime($deadline)) : '' ?>" name="deadline_task" id="deadline-task" type="datetime-local" class="form-control">
-    </div>
+                <div class="form-group">
+                    <label for="content-task">Mô tả chi tiết</label>
+                    <textarea required name="content_task" class="form-control" rows="3"><?= !empty($content_task) ? $content_task : '' ?></textarea>
+                </div>
 
-    <div class="form-group">
-        <label for="upload-files">Các tập tin đính kèm</label>
-        <div class="custom-file">
-            <input id="uploaded-files" name="uploaded_files[]" multiple type="file" class="<?= (!$is_validated) ? 'is-invalid' : '' ?> custom-file-input">
-            <?= (!$is_validated) ? '<div class="invalid-feedback">Vui lòng nhập file có kích thước nhỏ hơn 5MB!</div>' : '' ?>
-            <label class="custom-file-label" for="customFile">Choose file</label>
+                <div class="form-group">
+                    <label for="deadline-task">Thời gian deadline</label>
+                    <input required value="<?= !empty($deadline) ? date("Y-m-d\TH:i:s", strtotime($deadline)) : '' ?>" name="deadline_task" id="deadline-task" type="datetime-local" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="upload-files">Các tập tin đính kèm</label>
+                    <div class="custom-file">
+                        <input id="uploaded-files" name="uploaded_files[]" multiple type="file" class="<?= (!$is_validated) ? 'is-invalid' : '' ?> custom-file-input">
+                        <?= (!$is_validated) ? '<div class="invalid-feedback">Vui lòng nhập file có kích thước nhỏ hơn 5MB!</div>' : '' ?>
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+                <div class="form-group text-right">
+                    <button id="add-task-btn" name="btn-submit" type="submit" class="btn btn-secondary">Submit</button>
+
+                </div>
+            </form>
         </div>
     </div>
-
-    <button id="add-task-btn" name="btn-submit" type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>

@@ -48,44 +48,52 @@ if (isset($_POST['btn-submit'])) {
     header("Location: ?type=department&action=view");
 }
 ?>
-<h3 class="my-3 text-center">BỔ NHIỆM TRƯỞNG PHÒNG</h3>
-
-<form method="POST">
-    <div class="form-group" id="department-name-wrapper">
-        <label for="name-department">Tên phòng ban</label>
-        <select id="department-select-box" name="id_department" class="form-select" aria-label="Default select example">
-            <option selected>Chọn tên phòng ban</option>
-            <?php
-            foreach ($departments as $department) {
-                echo '<option department-name="' . $department['name_department'] . '" value=' . $department['id_department'] . '>' . $department['name_department'] . '</option>';
-            }
-            ?>
-        </select>
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-3" style="font-family:sans-serif;">
+    <div class="card-heading mt-5 mb-5">
+        <h2 class="title text-center text-uppercase"><b>BỔ NHIỆM TRƯỞNG PHÒNG</b></h2>
     </div>
-
-    <div class="form-group" id="employee-name-wrapper">
-        <label for="name-department">Tên nhân viên</label>
-        <select id="employee-select-box" name="id_employee" class="form-select" aria-label="Default select example">
-            <option selected>Chọn tên nhân viên sẽ được bổ nhiệm</option>
-        </select>
-    </div>
-
-    <button type="button" data-target="#confirm-appoint-manager" id="appoint-manager-btn" class="btn btn-success">Bác bỏ</button>
-
-    <div class="modal fade" id="confirm-appoint-manager">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Bổ nhiệm trưởng phòng</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5 p-5">
+            <form method="POST">
+                <div class="form-group" id="department-name-wrapper">
+                    <label for="name-department">Tên phòng ban</label>
+                    <select id="department-select-box" name="id_department" class="form-select" aria-label="Default select example">
+                        <option selected>Chọn tên phòng ban</option>
+                        <?php
+                        foreach ($departments as $department) {
+                            echo '<option department-name="' . $department['name_department'] . '" value=' . $department['id_department'] . '>' . $department['name_department'] . '</option>';
+                        }
+                        ?>
+                    </select>
                 </div>
 
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <button name="btn-submit" type="submit" class="btn btn-success">Đồng ý</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <div class="form-group" id="employee-name-wrapper">
+                    <label for="name-department">Tên nhân viên</label>
+                    <select id="employee-select-box" name="id_employee" class="form-select" aria-label="Default select example">
+                        <option selected>Chọn tên nhân viên sẽ được bổ nhiệm</option>
+                    </select>
                 </div>
-            </div>
+                <div class="text-right">
+                    <button type="button" data-target="#confirm-appoint-manager" id="appoint-manager-btn" class="btn btn-dark">Bác bỏ</button>
+                </div>
+
+                <div class="modal fade" id="confirm-appoint-manager">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Bổ nhiệm trưởng phòng</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <div class="modal-body"></div>
+                            <div class="modal-footer">
+                                <button name="btn-submit" type="submit" class="btn btn-outline-dark">Đồng ý</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</form>
+</div>

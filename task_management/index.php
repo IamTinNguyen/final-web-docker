@@ -27,66 +27,73 @@ $name_department = $name_department[0]['name_department'];
 
 ?>
 
-<h3 class="my-3 text-center text-uppercase">DANH SÁCH NHIỆM VỤ CỦA <?=$name_department?></h3>
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-3" style="font-family:sans-serif;">
+    <div class="card-heading mt-5 mb-5">
+        <h2 class="title text-center text-uppercase"><b>DANH SÁCH NHIỆM VỤ CỦA <?= $name_department ?></b></h2>
+    </div>
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5 p-5">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Tên nhiệm vụ</th>
+                        <th scope="col">Tên nhân viên</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $index = 0;
+                    foreach ($output as $value) {
+                        $id_task = $value['id_task'];
+                        $sql = "SELECT id_status FROM `task_progress` WHERE id_task = $id_task ORDER BY id_task_progress DESC LIMIT 1";
+                        $result = $conn->query($sql);
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Tên nhiệm vụ</th>
-            <th scope="col">Tên nhân viên</th>
-            <th scope="col">Trạng thái</th>
-            <th scope="col" class="text-center">Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $index = 0;
-        foreach ($output as $value) {
-            $id_task = $value['id_task'];
-            $sql = "SELECT id_status FROM `task_progress` WHERE id_task = $id_task ORDER BY id_task_progress DESC LIMIT 1";
-            $result = $conn->query($sql);
+                        while ($row = $result->fetch_assoc()) {
+                            $status_arr[] = $row;
+                        }
 
-            while ($row = $result->fetch_assoc()) {
-                $status_arr[] = $row;
-            }
+                        $id_status = '';
+                        if (isset($status_arr[0])) {
+                            $id_status = $status_arr[0]['id_status'];
+                        }
 
-            $id_status = '';
-            if (isset($status_arr[0])) {
-                $id_status = $status_arr[0]['id_status'];
-            }
+                        $sql = "SELECT name_status FROM status WHERE id_status = $id_status";
+                        $result = $conn->query($sql);
+                        $name_status = [];
+                        while ($row = $result->fetch_assoc()) {
+                            $name_status[] = $row;
+                        }
 
-            $sql = "SELECT name_status FROM status WHERE id_status = $id_status";
-            $result = $conn->query($sql);
-            $name_status = [];
-            while ($row = $result->fetch_assoc()) {
-                $name_status[] = $row;
-            }
+                        if ($id_status != 0) {
+                            $edit_btn = 'disabled';
+                        } else {
+                            $edit_btn = '';
+                        }
 
-            if ($id_status != 0) {
-                $edit_btn = 'disabled';
-            } else {
-                $edit_btn = '';
-            }
-            
-            echo '
+                        echo '
                     <tr>
                         <th scope="row">' . ++$index . '</th>
                         <td>' . $value['title_task'] . '</td>
                         <td>' . $value['full_name'] . '</td>
                         <td>' . $name_status[0]['name_status'] . '</td>
                         <td class="text-center">
-                            <a href="?type=task_management&action=detail&id_task=' . $value['id_task'] . '" class="btn btn-sm btn-success">
-                                Xem chi tiết 
+                            <a href="?type=task_management&action=detail&id_task=' . $value['id_task'] . '" class="btn btn-sm btn-outline-dark">
+                                Chi tiết 
                             </a>
-                            <button data-id='.$id_task.' '.$edit_btn.' href="?type=task_management&action=detail&id_task=' . $value['id_task'] . '" class="btn btn-sm btn-danger edit-task-btn">
+                            <button data-id=' . $id_task . ' ' . $edit_btn . ' href="?type=task_management&action=detail&id_task=' . $value['id_task'] . '" class="btn btn-sm btn-dark edit-task-btn">
                                 Chỉnh sửa
                             </button>
                         </td>
                     </tr>
                 ';
-            unset($status_arr);
-        }
-        ?>
-    </tbody>
-</table>
+                        unset($status_arr);
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

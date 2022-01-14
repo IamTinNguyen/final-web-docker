@@ -35,40 +35,48 @@ if ($role == 0) {
 
 
 
-<h3 class="my-3 text-center">YÊU CẦU NGHỈ PHÉP</h3>
-
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Tên nhân viên</th>
-            <th scope="col">Tiêu đề</th>
-            <th scope="col">Ngày gửi</th>
-            <th class="text-center" scope="col">Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $index = 0;
-        if ($output == null) {
-            echo '<th colspan="7" class="text-center">Chưa có đơn xin nghỉ phép</th>';
-        }
-        foreach ($output as $value) {
-            echo '
+<h3 class="my-3 text-center"></h3>
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-3" style="font-family:sans-serif;">
+    <div class="card-heading mt-5 mb-5">
+        <h2 class="title text-center text-uppercase"><b>YÊU CẦU NGHỈ PHÉP</b></h2>
+    </div>
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5 p-5">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Tên nhân viên</th>
+                        <th scope="col">Tiêu đề</th>
+                        <th scope="col">Ngày gửi</th>
+                        <th class="text-center" scope="col">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $index = 0;
+                    if ($output == null) {
+                        echo '<th colspan="7" class="text-center">Chưa có đơn xin nghỉ phép</th>';
+                    }
+                    foreach ($output as $value) {
+                        echo '
                     <tr>
                         <th scope="row">' . ++$index . '</th>
                         <td>' . $value['full_name'] . '</td>
                         <td>' . ($value['tittle_letter'] == NULL ? 'Chưa có' : $value['tittle_letter']) . '</td>
                         <td>' . strftime('%d-%m-%Y', strtotime($value['day_sent'])) . '</td>
                         <td class="text-center">
-                        <a href="?type=absence_letter&action=detail&id=' . $value['id_letter'] . '" class="btn btn-sm btn-success">
-                            Xem chi tiết
+                        <a href="?type=absence_letter&action=detail&id=' . $value['id_letter'] . '" class="btn btn-sm btn-dark">
+                            Chi tiết
                         </a></td>
                     </tr>
                 ';
-        }
+                    }
 
-        ?>
+                    ?>
 
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

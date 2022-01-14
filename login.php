@@ -4,7 +4,7 @@ error_reporting(E_ERROR | E_PARSE);
 session_start();
 
 if (isset($_SESSION['user'])) {
-    header('Location: index.php');
+    header('Location: index.php?type=account&action=view');
     exit();
 }
 
@@ -35,9 +35,14 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
             if ($user == $pass) {
                 header('Location: index.php?type=reset_password');
                 exit();
-            } else {
-                // $_SESSION['name'] = $data['firstname'] . ' ' . $data['lastname'];
-                header('Location: index.php');
+            } elseif ($data[0]['id_role'] == 1) {
+                header('Location: index.php?type=task_management&action=view');
+                exit();
+            } elseif ($data[0]['id_role'] == 2) {
+                header('Location: index.php?type=task_employee&action=view');
+                exit();
+            } elseif ($data[0]['id_role'] == 0) {
+                header('Location: index.php?type=employee&action=view');
                 exit();
             }
         } else {
@@ -89,23 +94,25 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
                     <br>
                     <input name="pass" value="<?= $pass ?>" id="password" type="password" class="form-control" placeholder="Password">
                 </div>
-
-                <br><br>
+                <br>
+                <div class="form-group">
+                    <?php
+                    if (!empty($error)) {
+                        echo "<div class='alert alert-danger' style = 'color: #f33a58;'>$error</div>";
+                    }
+                    ?>
+                </div>
+                <br>
 
                 <div class="remember-me--forget-password">
 
-                    <label>
+                    <div class="form-group">
                         <input <?= isset($_POST['remember']) ? 'checked' : '' ?> name="remember" type="checkbox" class="custom-control-input" id="remember" />
                         <span class="text-checkbox">Remember me</span>
-                    </label>
-                    <div class="form-group">
-                        <?php
-                        if (!empty($error)) {
-                            echo "<div class='alert alert-danger'>$error</div>";
-                        }
-                        ?>
                     </div>
+
                 </div>
+
 
                 <br>
                 <button class="btn btn-success px-5">Login</button>

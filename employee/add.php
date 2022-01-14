@@ -106,7 +106,7 @@ if (isset($_POST['btn-submit'])) {
 <form method="POST" name="employee" id="employee">
     <div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-5" style="font-family:sans-serif;">
         <div class="card-heading mt-5 mb-5">
-            <h2 class="title text-center"><b>THÊM & CHỈNH SỬA THÔNG TIN NHÂN VIÊN</b></h2>
+            <h2 class="title text-center"><b><?= !isset($_GET['id']) ? 'THÊM NHÂN VIÊN' : 'CHỈNH SỬA THÔNG TIN NHÂN VIÊN' ?></b></h2>
         </div>
         <div class="wrapper wrapper--w790">
             <div class="card card-5 p-5">
