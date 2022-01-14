@@ -70,8 +70,8 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
     <div class="box-form">
         <div class="left">
             <div class="overlay">
-                <h1>Welcome to login</h1>
-                <p>Employee Managerment Website</p>
+                <h1>Welcome to our website</h1>
+                <p>Employee Managerment Services</p>
                 <span>
                     <p>Contact us</p>
                     <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
@@ -82,7 +82,7 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
 
         <div class="right">
             <h5>Login</h5>
-            <p>Don't have an account? <a href="/register">Creat Your Account</a> it takes less than a minute</p>
+            <p>Chào mừng bạn đến với trang web của chúng tôi, hãy đăng nhập bằng tài khoản đã được cấp của bạn</p>
             <form method="post" action="" class="border rounded w-100 mb-5 mx-auto px-3 pt-3 bg-light">
                 <div class="inputs">
                     <input value="<?= $user ?>" name="user" id="user" type="text" class="form-control" placeholder="Username">

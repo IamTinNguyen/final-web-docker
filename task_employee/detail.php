@@ -111,7 +111,7 @@ if (isset($_GET['id_task'])) {
     <div class="wrapper wrapper--w790">
         <div class="card card-5">
             <div class="card-heading mt-5">
-                <h2 class="title text-center">CHI TIẾT NHIỆM VỤ</h2>
+                <h2 class="title text-center"><b>CHI TIẾT NHIỆM VỤ</b></h2>
             </div>
             <div class="card-body">
 
@@ -248,7 +248,7 @@ if (isset($_GET['id_task'])) {
                     <form method='POST' >
                         <div class='text-right mt-3'>
                             <a class='btn btn-primary' href='?type=task_employee&action=view' role='button'>Trở về</a>
-                            <input id='btn_status' data-toggle='modal' data-target='#confirm-employee-nonsubmit' class='btn btn-outline-$button_style_status' type='button' value='$status_button' $isDisabled>
+                            <input id='btn_status' data-toggle='modal' data-target='#confirm-employee-nonsubmit' class='btn btn-outline-dark' type='button' value='$status_button' $isDisabled>
                         </div>
                         <div class='modal fade show' id='confirm-employee-nonsubmit'>
                         <div class='modal-dialog'>
@@ -262,7 +262,7 @@ if (isset($_GET['id_task'])) {
                                     Bạn có chắc rằng muốn submit nhiệm vụ không?
                                 </div>
                                 <div class='modal-footer'>
-                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-danger'  name='btn-task-status'>Đồng ý</button>
+                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-outline-dark'  name='btn-task-status'>Đồng ý</button>
                                     <button type='button' class='btn btn-secondary' data-dismiss='modal'>Hủy</button>
                                 </div>
                             </div>
@@ -298,7 +298,7 @@ if (isset($_GET['id_task'])) {
                         
                     </div>
                     <div class='text-right'>
-                        <button id='btn-employee-submit' data-target='#confirm-employee-submit' name='btn-task-submit' type='button' class='btn btn-primary mt-2'>Submit</button>
+                        <button id='btn-employee-submit' data-target='#confirm-employee-submit' name='btn-task-submit' type='button' class='btn btn-dark mt-2'>Submit</button>
                     </div>
                     <div class='modal fade' id='confirm-employee-submit'>
                         <div class='modal-dialog'>
@@ -312,7 +312,7 @@ if (isset($_GET['id_task'])) {
                                     Bạn có chắc rằng muốn submit nhiệm vụ không?
                                 </div>
                                 <div class='modal-footer'>
-                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-danger'>Đồng ý</button>
+                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-outline-dark'>Đồng ý</button>
                                     <button type='button' class='btn btn-secondary' data-dismiss='modal'>Hủy</button>
                                 </div>
                             </div>

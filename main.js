@@ -172,6 +172,20 @@ Filevalidation = () => {
 
     // Check if any file is selected.
     if (fi.files.length > 0) {
+        var filePath = fi.value;
+
+        // Allowing file type
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.docx|\.pdf)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            document.getElementById('size2').innerHTML = 'File không hợp lệ, bạn chỉ được submit file ảnh!';
+            btnEmployeeSubmit.disabled = true;
+            fileInput.value = '';
+        }
+        else {
+            document.getElementById('size2').innerHTML = '';
+            btnEmployeeSubmit.disabled = false;
+        }
         var fileTotalSize = 0;
         for (let i = 0; i <= fi.files.length - 1; i++) {
 
@@ -192,11 +206,25 @@ Filevalidation = () => {
     }
 }
 FilevalidationLetter = () => {
-    const fi = document.getElementById('file_letter_submit');
-    const btnEmployeeSubmit = document.getElementById('btn_letter_submit');
+    let fi = document.getElementById('file_letter_submit');
+    let btnEmployeeSubmit = document.getElementById('btn_letter_submit');
 
     // Check if any file is selected.
     if (fi.files.length > 0) {
+        var filePath = fi.value;
+
+        // Allowing file type
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.docx|\.pdf)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            document.getElementById('size2').innerHTML = 'File không hợp lệ, bạn chỉ được submit file ảnh, pdf, docx!';
+            btnEmployeeSubmit.disabled = true;
+            fileInput.value = '';
+        }
+        else {
+            document.getElementById('size2').innerHTML = '';
+            btnEmployeeSubmit.disabled = false;
+        }
         var fileTotalSize = 0;
         for (let i = 0; i <= fi.files.length - 1; i++) {
 
@@ -213,6 +241,49 @@ FilevalidationLetter = () => {
 
         } else {
             document.getElementById('size2').innerHTML = '';
+            btnEmployeeSubmit.disabled = false;
+
+        }
+        console.log(fileTotalSize);
+    }
+}
+
+FilevalidationAvartar = () => {
+    let fi = document.getElementById('avarta_file');
+    let btnEmployeeSubmit = document.getElementById('btn_employee_info');
+
+    // Check if any file is selected.
+    if (fi.files.length > 0) {
+        var filePath = fi.value;
+
+        // Allowing file type
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            document.getElementById('size_avartar').innerHTML = 'File không hợp lệ, bạn chỉ được submit file ảnh!';
+            btnEmployeeSubmit.disabled = true;
+            fileInput.value = '';
+        }
+        else {
+            document.getElementById('size_avartar').innerHTML = '';
+            btnEmployeeSubmit.disabled = false;
+        }
+        var fileTotalSize = 0;
+        for (let i = 0; i <= fi.files.length - 1; i++) {
+
+            let fsize = fi.files.item(i).size;
+            let file = Math.round((fsize / 1024));
+            fileTotalSize = fileTotalSize + file;
+            console.log(fileTotalSize);
+            // The size of the file.
+
+        }
+        if (fileTotalSize >= 5120) {
+            document.getElementById('size_avartar').innerHTML = 'File quá lớn, vui lòng chọn file nhỏ hơn 5Mb!';
+            btnEmployeeSubmit.disabled = true;
+
+        } else {
+            document.getElementById('size_avartar').innerHTML = '';
             btnEmployeeSubmit.disabled = false;
 
         }

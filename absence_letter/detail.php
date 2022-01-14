@@ -20,61 +20,61 @@ while ($row = $result->fetch_assoc()) {
 
 <h3 class="my-3 text-center">CHI TIẾT YÊU CẦU NGHỈ PHÉP</h3>
 <?php
-    echo '
+echo '
         <form>
             <div class="form-group">
                 <label for="full_name">Họ và tên:</label>
-                <input id="full_name" type="text" value="'.$output[0]['full_name'].'" class="form-control" disabled>
+                <input id="full_name" type="text" value="' . $output[0]['full_name'] . '" class="form-control" disabled>
             </div>
 
             <div class="form-group">
                 <label for="tittle">Tiêu đề:</label>
-                <input id="tittle" type="text" value="'.$output[0]['tittle_letter'].'" class="form-control" disabled>
+                <input id="tittle" type="text" value="' . $output[0]['tittle_letter'] . '" class="form-control" disabled>
             </div>
 
             <div class="form-group">
                 <label for="content">Nội dung:</label>
-                <input id="content" type="text" value="'.$output[0]['content_letter'].'" class="form-control" disabled>
+                <input id="content" type="text" value="' . $output[0]['content_letter'] . '" class="form-control" disabled>
             </div>
 
             <div class="form-group">
                 <label for="description">Mô tả chi tiết:</label>
-                <input id="description" type="text" value="'.$output[0]['description_letter'].'" class="form-control" disabled>
+                <input id="description" type="text" value="' . $output[0]['description_letter'] . '" class="form-control" disabled>
             </div>
 
             <div class="form-group">
                 <label for="day_sent">Ngày gửi:</label>
-                <input id="day_sent" type="text" value="'.strftime('%d-%m-%Y', strtotime($output[0]['day_sent'])).'" class="form-control" disabled>
+                <input id="day_sent" type="text" value="' . strftime('%d-%m-%Y', strtotime($output[0]['day_sent'])) . '" class="form-control" disabled>
             </div>
 
             <div class="form-group">
                 <label for="day_start">Ngày bắt đầu nghỉ phép:</label>
-                <input id="day_start" type="text" value="'.strftime('%d-%m-%Y', strtotime($output[0]['day_start'])).'" class="form-control" disabled>
+                <input id="day_start" type="text" value="' . strftime('%d-%m-%Y', strtotime($output[0]['day_start'])) . '" class="form-control" disabled>
             </div>
 
             <div class="form-group">
                 <label for="days_off">Ngày bắt đầu nghỉ phép:</label>
-                <input id="days_off" type="text" value="'.$output[0]['days_off'].'" class="form-control" disabled>
+                <input id="days_off" type="text" value="' . $output[0]['days_off'] . '" class="form-control" disabled>
             </div>
 
             <div class="form-group">
                 <label for="day_finish">Ngày làm lại:</label>
-                <input id="day_finish" type="text" value="'.strftime('%d-%m-%Y', strtotime($output[0]['day_finish'])).'" class="form-control" disabled>
+                <input id="day_finish" type="text" value="' . strftime('%d-%m-%Y', strtotime($output[0]['day_finish'])) . '" class="form-control" disabled>
             </div>
 
             <div class="form-group">
                 <label for="status">Trạng thái:</label>
-                <input id="status" type="text" value="'.($output[0]['letter_status'] == 0 ? 'Chưa duyệt' : ($output[0]['letter_status'] == 1 ? 'Đã duyệt' : 'Đã từ chối')).'" class="form-control" disabled>
+                <input id="status" type="text" value="' . ($output[0]['letter_status'] == 0 ? 'Chưa duyệt' : ($output[0]['letter_status'] == 1 ? 'Đã duyệt' : 'Đã từ chối')) . '" class="form-control" disabled>
             </div>
         </form>
         ';
-    $sql = "SELECT * FROM letter_file WHERE id_letter = $id_letter";
-    $result = $conn->query($sql);
+$sql = "SELECT * FROM letter_file WHERE id_letter = $id_letter";
+$result = $conn->query($sql);
 
-    while ($row = $result->fetch_assoc()) {
-        $file[] = $row;
-    }
-    echo '
+while ($row = $result->fetch_assoc()) {
+    $file[] = $row;
+}
+echo '
     <table class="table table-hover">
         <thead>
             <tr>
@@ -85,21 +85,21 @@ while ($row = $result->fetch_assoc()) {
         </thead>
         <tbody>
     ';
-    if ($file == null) {
-        echo '<th colspan="3" class="text-center">Không có tệp đính kèm</th>';
-    }
-    $index = 0;
-    foreach ($file as $file_letter) {
-        echo '
+if ($file == null) {
+    echo '<th colspan="3" class="text-center">Không có tệp đính kèm</th>';
+}
+$index = 0;
+foreach ($file as $file_letter) {
+    echo '
             <tr>
                 <th scope="row">' . ++$index . '</th>
                 <td>' . $file_letter['file_name'] . '</td>
                 <td class="text-center"><img height="150px" src="uploads/' . $file_letter['file_name'] . '"></td>
             </tr>
     ';
-    }
-    if ($output[0]['letter_status'] == 0) {
-        echo '
+}
+if ($output[0]['letter_status'] == 0) {
+    echo '
             <div class="">
                 <a data-toggle="modal" href="#approve" class="btn btn-success">
                     Phê duyệt
@@ -158,5 +158,5 @@ while ($row = $result->fetch_assoc()) {
                 </div> 
             </div>
         ';
-    }
+}
 ?>

@@ -1,4 +1,4 @@
-<nav class="bg-light border-0 sidebar card" style='font-size:16px'>
+<!-- <nav class="bg-light border-0 sidebar card" style='font-size:16px'>
     <ul class="nav flex-column" id="nav_accordion">
         <li class="nav-item">
             <a class="nav-link text-dark" href="#"> Dashboard </a>
@@ -54,121 +54,133 @@
             <a class="nav-link text-dark" href="?type=logout">Đăng xuất</a>
         </li>
     </ul>
-</nav>
-
-<!-- <div class="sidebar close" style="opacity: inherit;">
+</nav> -->
+<?php
+error_reporting(E_ERROR | E_PARSE);
+if (!empty($_SESSION['user'][0]['employee_avatar'])) {
+    $avatar = $_SESSION['user'][0]['employee_avatar'];
+    $role = $_SESSION['user'][0]['id_role'];
+    $fullname = $_SESSION['user'][0]['full_name'];
+    if ((int) $role == 0) {
+        $roleName = "Quản lý";
+    } elseif ((int) $role == 1) {
+        $roleName = "Trưởng phòng";
+    } elseif ((int) $role == 2) {
+        $roleName = "Nhân viên";
+    }
+} else {
+    $avatar = "unknown_avatar.jpeg";
+    $role = "";
+    $fullname = "";
+}
+?>
+<div class="sidebar" style="opacity: inherit;">
     <div class="logo-details">
-        <i class='bx bxl-c-plus-plus'></i>
+        <i class='bx bxl-dev-to'></i>
         <span class="logo_name">E Manager</span>
     </div>
     <ul class="nav-links">
         <li>
-            <a href="?type=employee&action=view">
-                <i class='bx bx-grid-alt'></i>
+            <a href="?type=account&action=view">
+                <i class='bx bx-user-circle'></i>
                 <span class="link_name">Tài khoản</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Category</a></li>
+                <li><a class="link_name" href="#"></a></li>
             </ul>
         </li>
         <li>
             <div class="iocn-link">
-                <a href="#">
-                    <i class='bx bx-collection'></i>
-                    <span class="link_name">Category</span>
+                <a href="?type=employee&action=view">
+                    <i class='bx bx-group'></i>
+                    <span class="link_name">Nhân viên</span>
                 </a>
                 <i class='bx bxs-chevron-down arrow'></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Category</a></li>
-                <li><a href="#">HTML & CSS</a></li>
-                <li><a href="#">JavaScript</a></li>
-                <li><a href="#">PHP & MySQL</a></li>
+                <li><a class="link_name" href="?type=employee&action=view">Nhân viên</a></li>
+                <li><a href="?type=employee&action=view">Danh sách</a></li>
+                <li><a href="?type=employee&action=add">Thêm nhân viên</a></li>
             </ul>
         </li>
         <li>
             <div class="iocn-link">
-                <a href="#">
-                    <i class='bx bx-book-alt'></i>
-                    <span class="link_name">Posts</span>
+                <a href="?type=department&action=view">
+                    <i class='bx bx-briefcase'></i>
+                    <span class="link_name">Phòng ban</span>
                 </a>
                 <i class='bx bxs-chevron-down arrow'></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Posts</a></li>
-                <li><a href="#">Web Design</a></li>
-                <li><a href="#">Login Form</a></li>
-                <li><a href="#">Card Design</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-pie-chart-alt-2'></i>
-                <span class="link_name">Analytics</span>
-            </a>
-            <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Analytics</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-line-chart'></i>
-                <span class="link_name">Chart</span>
-            </a>
-            <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Chart</a></li>
+                <li><a class="link_name" href="?type=department&action=view">Phòng ban</a></li>
+                <li><a href="?type=department&action=view">Danh sách</a></li>
+                <li><a href="?type=department&action=add">Thêm phòng ban</a></li>
+                <li><a href="?type=department&action=appoint">Bổ nhiệm</a></li>
             </ul>
         </li>
         <li>
             <div class="iocn-link">
-                <a href="#">
-                    <i class='bx bx-plug'></i>
-                    <span class="link_name">Plugins</span>
+                <a href="?type=task_management&action=view">
+                    <i class='bx bx-calendar'></i>
+                    <span class="link_name">Nhiệm vụ</span>
                 </a>
                 <i class='bx bxs-chevron-down arrow'></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Plugins</a></li>
-                <li><a href="#">UI Face</a></li>
-                <li><a href="#">Pigments</a></li>
-                <li><a href="#">Box Icons</a></li>
+                <li><a class="link_name" href="?type=task_management&action=view">Nhiệm vụ</a></li>
+                <li><a href="?type=task_management&action=view">Danh sách</a></li>
+                <li><a href="?type=task_management&action=add">Thêm nhiệm vụ</a></li>
             </ul>
         </li>
         <li>
-            <a href="#">
-                <i class='bx bx-compass'></i>
-                <span class="link_name">Explore</span>
+            <a href="?type=task_employee&action=view">
+                <i class='bx bx-layer'></i>
+                <span class="link_name">Nhiệm vụ</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Explore</a></li>
+                <li><a class="link_name" href="?type=task_employee&action=view">Nhiệm vụ</a></li>
             </ul>
         </li>
         <li>
-            <a href="#">
-                <i class='bx bx-history'></i>
-                <span class="link_name">History</span>
-            </a>
-            <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">History</a></li>
+            <div class="iocn-link">
+                <a href="?type=absence_letter&action=add">
+                    <i class='bx bx-mail-send'></i>
+                    <span class="link_name">Nghỉ phép</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="?type=absence_letter&action=add">Nghỉ phép</a></li>
+                <li><a href="?type=absence_letter&action=view">Danh sách</a></li>
+                <li><a href="?type=absence_letter&action=add">Viết đơn</a></li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="?type=reset_password">
                 <i class='bx bx-cog'></i>
-                <span class="link_name">Setting</span>
+                <span class="link_name">Mật khẩu</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Setting</a></li>
+                <li><a class="link_name" href="?type=reset_password">Mật khẩu</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="?type=logout">
+                <i class='bx bx-log-out'></i>
+                <span class="link_name">Đăng xuất</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="?type=logout">Đăng xuất</a></li>
             </ul>
         </li>
         <li>
             <div class="profile-details">
                 <div class="profile-content">
-                    <img src="image/profile.jpg" alt="profileImg">
+                    <img src="uploads/<?= $avatar ?>" alt="profileImg">
                 </div>
                 <div class="name-job">
-                    <div class="profile_name">Prem Shahi</div>
-                    <div class="job">Web Desginer</div>
+                    <div class="profile_name"><?= $roleName ?></div>
+                    <div class="job"><?= $fullname ?></div>
                 </div>
                 <i class='bx bx-log-out'></i>
             </div>
@@ -179,4 +191,4 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
     </div>
-</section> -->
+</section>

@@ -16,13 +16,8 @@
     right: 8px;
 }
 /* Google Fonts Import Link */
-/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 .sidebar{
   position: fixed;
   top: 0;
@@ -258,7 +253,7 @@
   .sidebar.close .nav-links li .sub-menu{
     display: none;
   }
-} */
+}
 
 
 
@@ -321,7 +316,7 @@
 }
 
 .box-form .left .overlay h1 {
-    font-size: 6vmax;
+    font-size: 7vmax;
     line-height: 1;
     font-weight: 900;
     margin-top: 40px;

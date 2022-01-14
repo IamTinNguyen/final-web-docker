@@ -17,7 +17,6 @@ if (isset($_GET['id'])) {
     while ($row = $result->fetch_assoc()) {
         $output[] = $row;
     }
-
     $username = $output[0]['username'];
     $full_name = $output[0]['full_name'];
     $phone = $output[0]['phone_number'];
@@ -39,13 +38,16 @@ if (isset($_POST['phone']) && isset($_POST['address']) && isset($_POST['email'])
     $address = $_POST['address'];
     $email = $_POST['email'];
 }
+
 if (isset($_POST['btn-submit'])) {
+
     if (isset($_GET['id'])) {
+
+        $file_name = $_FILES['upload-file-submit']['name'];
+        move_uploaded_file($_FILES['upload-file-submit']['tmp_name'], 'uploads/' . $file_name);
         $sql = "
                 UPDATE  `employee`
-                SET     `phone_number` = '$phone', 
-                        `address` = '$address', 
-                        `email` = '$email'
+                SET     `employee_avatar` = '$file_name'
                 WHERE   `id_employee` = $id
             ";
         $conn->query($sql) or die($conn->error);
@@ -55,66 +57,61 @@ if (isset($_POST['btn-submit'])) {
 
 ?>
 
-<form method="POST">
+<form method="POST" enctype='multipart/form-data'>
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-5" style="font-family:sans-serif;">
+        <div class="card-heading mt-5 mb-5">
+            <h2 class="title text-center"><b> THAY ĐỔI ẢNH ĐẠI DIỆN</b></h2>
+        </div>
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5 p-5">
+                <div class="row mt-2">
 
-    <div class="form-group">
-        <label for="username">Tên người dùng</label>
-        <input value="<?= !empty($username) ? $username : '' ?>" name="username" type="text" class="form-control" disabled>
-    </div>
+                    <div class="col">
+                        <label for="username">Tên người dùng</label>
+                        <input value="<?= !empty($username) ? $username : '' ?>" name="username" type="text" class="form-control" disabled>
+                    </div>
 
-    <div class="form-group">
-        <label for="full_name">Họ tên</label>
-        <input value="<?= !empty($full_name) ? $full_name : '' ?>" name="full_name" type="text" class="form-control" disabled>
-    </div>
-
-    <div class="form-group">
-        <label for="phone">Phone</label>
-        <input value="<?= !empty($phone) ? $phone : '' ?>" name="phone" type="number" class="form-control" required>
-    </div>
-
-    <div class="form-group">
-        <label for="address">Dia Chi</label>
-        <input value="<?= !empty($address) ? $address : '' ?>" name="address" type="text" class="form-control" required>
-    </div>
-
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input value="<?= !empty($email) ? $email : '' ?>" name="email" type="email" class="form-control" required>
-    </div>
-
-    <div class="form-group">
-        <label for="salary">Salary</label>
-        <input value="<?= !empty($salary) ? $salary : '' ?>" name="salary" type="text" class="form-control" disabled>
-    </div>
-
-    <div class="form-group">
-        <label for="name_department">Phòng ban</label>
-        <input value="<?= !empty($name_department) ? $name_department : '' ?>" name="name_department" type="text" class="form-control" disabled>
-    </div>
-
-    <div class="form-group">
-        <label for="name_role">Chức vụ</label>
-        <input value="<?= !empty($name_role) ? $name_role : '' ?>" name="name_role" type="text" class="form-control" disabled>
-    </div>
-
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#change_info">Lưu lại</button>
-
-    <div class="modal fade" id="change_info">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Xác nhận</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="col">
+                        <label for="full_name">Họ tên</label>
+                        <input value="<?= !empty($full_name) ? $full_name : '' ?>" name="full_name" type="text" class="form-control" disabled>
+                    </div>
                 </div>
 
-                <div class="modal-body">
-                    Sửa thông tin?
+
+                <div class='form-group mt-3'>
+                    <label for='upload-files'>Đổi ảnh đại diện</label>
+                    <div class='custom-file'>
+                        <input onchange='FilevalidationAvartar()' id='avarta_file' name='upload-file-submit' type='file' class='custom-file-input'>
+                        <label class='custom-file-label' for='customFile'>Choose file</label>
+
+                    </div>
+                    <span id='size_avartar' style='color: #f33a58;' class='form-message'></span>
                 </div>
-                <div class="modal-footer">
-                <button name="btn-submit" type="submit" class="btn btn-success">Xác nhận</button>
-                <button data-dismiss="modal" class="btn btn-secondary">Hủy</button>
+                <div class="text-right mb-3">
+                    <button name='btn_submit_test' id="btn_employee_info" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#change_info">Lưu lại</button>
+
+                </div>
+
+                <div class="modal fade" id="change_info">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Thông báo</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <div class="modal-body">
+                                Bạn có chắc chắn rằng muốn đổi ảnh đại diện không?
+                            </div>
+                            <div class="modal-footer">
+                                <button name="btn-submit" type="submit" class="btn btn-outline-dark">Xác nhận</button>
+                                <button data-dismiss="modal" class="btn btn-secondary">Hủy</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </form>

@@ -6,6 +6,7 @@ $conn = open_database();
 
 /* Get Department */
 $sql = "SELECT * FROM department";
+$result = null;
 $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()) {
     $department[] = $row;
@@ -13,9 +14,8 @@ while ($row = $result->fetch_assoc()) {
 
 /* Get role */
 $sql = "SELECT * FROM role";
-
+$role = array();
 $result = $conn->query($sql);
-
 while ($row = $result->fetch_assoc()) {
     $role[] = $row;
 }
@@ -61,9 +61,9 @@ if (isset($_POST['full_name']) && isset($_POST['username']) && isset($_POST['pho
     $address = $_POST['address'];
     $email = $_POST['email'];
     $salary = $_POST['salary'];
-    $hash_password = password_hash($username,PASSWORD_BCRYPT);
+    $hash_password = password_hash($username, PASSWORD_BCRYPT);
     foreach ($department as $department) {
-        if($name_department == $department['name_department']) {
+        if ($name_department == $department['name_department']) {
             $id_department = $department['id_department'];
         }
     }
@@ -81,17 +81,13 @@ if (isset($_POST['btn-submit'])) {
         ";
 
         $conn->query($sql) or die($conn->error);
-    }
-    else {
-        {   
+    } else { {
             $sql = "
                     INSERT INTO account(username,password)
                     VALUES('$username','$hash_password');   
                 ";
             $conn->query($sql) or die($conn->error);
-        }
-
-        {
+        } {
             $sql = "
                     INSERT INTO employee(full_name,id_account,id_department,id_role,phone_number,address,email,salary) 
                     VALUES('$full_name',$id_account+1,$id_department,2,$phone,'$address','$email',$salary);   
@@ -103,76 +99,99 @@ if (isset($_POST['btn-submit'])) {
 }
 
 ?>
-<script type="text/javascript">var employee =<?php echo json_encode($amount); ?>;</script>
+<script type="text/javascript">
+    var employee = <?php echo json_encode($amount); ?>;
+</script>
 <!-- Input form -->
 <form method="POST" name="employee" id="employee">
-    <div class="alert alert-danger text-center" style="display: none;" id="errorMessage">
-    </div>
-    <div class="form-group">
-        <label for="username">Tên người dùng</label>
-        <input id="username" value="<?= !empty($username) ? $username : '' ?>" <?php if (!empty($username)) echo 'readonly'; else echo '' ?> name="username" type="text" class="form-control" placeholder="Nhập tên người dùng" required>
-    </div>
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-5" style="font-family:sans-serif;">
+        <div class="card-heading mt-5 mb-5">
+            <h2 class="title text-center"><b>THÊM & CHỈNH SỬA THÔNG TIN NHÂN VIÊN</b></h2>
+        </div>
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5 p-5">
+                <div class="alert alert-danger text-center" style="display: none;" id="errorMessage">
+                </div>
+                <div class="row mb-3">
 
-    <div class="form-group">
-        <label for="full_name">Họ tên</label>
-        <input value="<?= !empty($full_name) ? $full_name : '' ?>" <?php if (!empty($full_name)) echo 'readonly'; else echo '' ?> name="full_name" type="text" class="form-control" placeholder="Nhập họ tên" required>
-    </div>
+                    <div class="col">
+                        <label for="username">Tên người dùng</label>
+                        <input id="username" value="<?= !empty($username) ? $username : '' ?>" <?php if (!empty($username)) echo 'readonly';
+                                                                                                else echo '' ?> name="username" type="text" class="form-control" placeholder="Nhập tên người dùng" required>
+                    </div>
 
-    <div class="form-group">
-        <label for="full_name">Phone</label>
-        <input value="<?= !empty($phone) ? $phone : '' ?>" name="phone" type="text" class="form-control" placeholder="Nhập số điện thoại" required>
-    </div>
+                    <div class="col">
+                        <label for="full_name">Họ tên</label>
+                        <input value="<?= !empty($full_name) ? $full_name : '' ?>" <?php if (!empty($full_name)) echo 'readonly';
+                                                                                    else echo '' ?> name="full_name" type="text" class="form-control" placeholder="Nhập họ tên" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
 
-    <div class="form-group">
-        <label for="full_name">Dia Chi</label>
-        <input value="<?= !empty($address) ? $address : '' ?>" name="address" type="text" class="form-control" placeholder="Nhập địa chỉ" required>
-    </div>
-
-    <div class="form-group">
-        <label for="full_name">Email</label>
-        <input value="<?= !empty($email) ? $email : '' ?>" name="email" type="email" class="form-control" placeholder="Nhập email" required>
-    </div>
-
-    <div class="form-group">
-        <label for="full_name">Salary</label>
-        <input value="<?= !empty($salary) ? $salary : '' ?>" name="salary" type="number" class="form-control" placeholder="Nhập mức lương"required>
-    </div>
-
-    <div class="form-group">
-        <label for="name_department">Phòng ban</label>
-        <select id="name_department" name="name_department" id="department" <?php if (!empty($name_department)) echo 'disabled'; else echo '' ?>>
-            <?php
-                foreach($department as $department) {
-                    if ($department['name_department'] == $name_department) {
-                        echo "<option selected >".$department['name_department']."</option>";
-                    } 
-                    else {
-                        echo "<option>".$department['name_department']."</option>";
-                    }
-                } 
-            ?>
-        </select>
-    </div>
-
-    <button type="button" data-toggle="modal" data-target="#add_employee" class="btn btn-success">Thêm</button>
-
-    <div class="modal fade" id="add_employee">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Xác nhận</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="col">
+                        <label for="full_name">Phone</label>
+                        <input value="<?= !empty($phone) ? $phone : '' ?>" name="phone" type="number" class="form-control" placeholder="Nhập số điện thoại" required>
+                    </div>
+                    <div class="col">
+                        <label for="full_name">Email</label>
+                        <input value="<?= !empty($email) ? $email : '' ?>" name="email" type="email" class="form-control" placeholder="Nhập email" required>
+                    </div>
                 </div>
 
-                <div class="modal-body">
-                    Thêm thông tin
+                <div class="form-group">
+                    <label for="full_name">Dia Chi</label>
+                    <input value="<?= !empty($address) ? $address : '' ?>" name="address" type="text" class="form-control" placeholder="Nhập địa chỉ" required>
                 </div>
-                <div class="modal-footer">
-                <button name="btn-submit" type="submit" class="btn btn-success">Xác nhận</button>
-                <button data-dismiss="modal" class="btn btn-secondary">Hủy</button>
+
+
+                <div class="row mb-3">
+
+                    <div class="col">
+                        <label for="full_name">Salary</label>
+                        <input value="<?= !empty($salary) ? $salary : '' ?>" name="salary" type="number" class="form-control" placeholder="Nhập mức lương" required>
+                    </div>
+
+                    <div class="col">
+                        <label for="name_department">Phòng ban</label>
+                        <select id="name_department" class="form-select" name="name_department" id="department" <?php if (!empty($name_department)) echo 'disabled';
+                                                                                                                else echo '' ?>>
+                            <?php
+                            foreach ($department as $department) {
+                                if ($department['name_department'] == $name_department) {
+                                    echo "<option selected >" . $department['name_department'] . "</option>";
+                                } else {
+                                    echo "<option>" . $department['name_department'] . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group text-right mt-4">
+
+                    <button type="button" data-toggle="modal" data-target="#add_employee" class="btn btn-dark">Thêm</button>
+                </div>
+
+                <div class="modal fade" id="add_employee">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Thông báo</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <div class="modal-body">
+                                Bạn có chắc chắn rằng muốn thêm một nhân viên mới?
+                            </div>
+                            <div class="modal-footer">
+                                <button name="btn-submit" type="submit" class="btn btn-outline-dark">Xác nhận</button>
+                                <button data-dismiss="modal" class="btn btn-secondary">Hủy</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</form>
 
+</form>
