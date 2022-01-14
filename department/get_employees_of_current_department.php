@@ -11,7 +11,7 @@
         die(json_encode($response));
     } else {
         $id_department = $_GET['id_department'];
-        $sql = "SELECT * FROM employee WHERE id_department =".$id_department;
+        $sql = "SELECT * FROM employee WHERE id_role = 2 AND id_department =".$id_department;
         
         $result = $conn->query($sql);
         
