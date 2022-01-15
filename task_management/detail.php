@@ -106,7 +106,7 @@ if (isset($_POST['reject-task-btn']) && isset($_POST['feedback'])) {
 
         $conn->query($sql);
     }
-
+    
     header("Location: ?type=task_management&action=detail&id_task=" . $id_task);
 }
 

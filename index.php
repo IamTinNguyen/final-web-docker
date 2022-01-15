@@ -36,7 +36,13 @@ function checkPrivilege($uri = false)
     $uri = ($uri != false) ? $uri : $_SERVER['REQUEST_URI'];
 
     $privileges = implode("|", $_SESSION['user']['privileges']);
-    preg_match('/index\.php$|index\.php\?type=account&action=add&id=\d+$|index\.php\?type=account&action=view$|index\.php\?type=dashboard$|index\.php\?type=reset_password$|index\.php\?type=logout$|' . $privileges . '/', $uri, $matches);
+    
+    if (isset($_SESSION['user']['first-login-after-reset']) && $_SESSION['user']['first-login-after-reset'] == true) {
+        preg_match('/index\.php$|index\.php\?type=reset_password$|index\.php\?type=logout$/', $uri, $matches);
+    } else {
+        preg_match('/index\.php$|index\.php\?type=account&action=add&id=\d+$|index\.php\?type=account&action=view$|index\.php\?type=dashboard$|index\.php\?type=reset_password$|index\.php\?type=logout$|' . $privileges . '/', $uri, $matches);
+    }
+    
     return !empty($matches);
 }
 

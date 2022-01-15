@@ -37,6 +37,7 @@ if (isset($_POST['btn-submit'])) {
                     WHERE id_account = $id_account
                 ";
             $conn->query($sql) or die($conn->error);
+            unset($_SESSION['user']['first-login-after-reset']);
             header("Location: ?type=account&action=view");
         }
     }
@@ -53,14 +54,15 @@ if (isset($_POST['btn-submit'])) {
                 <div class="alert alert-danger text-center" style="display: <?= $style ?>;" id="errorMessage">
                     <?= $error ?>
                 </div>
+
                 <?php
                 if (!password_verify($username, $password)) {
                     echo '   
-                <div class="form-group">
-                    <label for="old_password">Nhập mật khẩu cũ</label>
-                    <input name="old_password" type="password" class="form-control">  
-                </div>
-            ';
+                        <div class="form-group">
+                            <label for="old_password">Nhập mật khẩu cũ</label>
+                            <input name="old_password" type="password" class="form-control">  
+                        </div>
+                    ';
                 }
                 ?>
 

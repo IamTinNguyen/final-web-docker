@@ -31,6 +31,7 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
 
             if ($user == $pass) {
                 header('Location: index.php?type=reset_password');
+                $_SESSION['user']['first-login-after-reset'] = true;
                 exit();
             } elseif ($data[0]['id_role'] == 1) {
                 header('Location: index.php?type=task_management&action=view');

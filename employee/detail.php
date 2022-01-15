@@ -4,7 +4,7 @@ $id = $_GET['id'];
 $conn = open_database();
 $sql = "SELECT employee.*,name_department,name_role 
         FROM employee,department,role 
-        WHERE id_employee= 1 
+        WHERE id_employee = $id 
         AND employee.id_role = role.id_role
         AND employee.id_department = department.id_department";
 $result = $conn->query($sql) or die($conn->error);
