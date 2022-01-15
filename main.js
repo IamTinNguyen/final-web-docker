@@ -186,13 +186,14 @@ $(document).ready(function () {
         var uploaded_file_wrapper = $("#task-management-uploaded-files-wrapper .custom-file");
         var uploaded_file_field = $("#task-management-uploaded-files-wrapper div #uploaded-files");
         var uploaded_file_arr = uploaded_file_field.prop('files');
+        var is_valid = true;
 
         if (idEmployeeField.val() == 'Chọn nhân viên sẽ nhận nhiệm vụ') {
             idEmployeeField.addClass('is-invalid');
             if ($("#employee-slt-box-msg").length == 0) {
                 idEmployeeWrapper.append('<div id="employee-slt-box-msg" class="invalid-feedback">Vui lòng chọn một nhân viên cụ thể!</div>');
             }
-            e.preventDefault();
+            is_valid = false;
         } else {
             for (var i = 0; i < uploaded_file_arr.length; i++) {
                 if (uploaded_file_arr[i].size > 5242880) {
@@ -200,9 +201,15 @@ $(document).ready(function () {
                     if ($("#files-uploaded-msg").length == 0) {
                         uploaded_file_wrapper.append('<div id="files-uploaded-msg" class="invalid-feedback">File quá lớn, vui lòng chọn file nhỏ hơn 5MB!</div>');
                     }
-                    e.preventDefault();
+                    is_valid = false;
                 }
             }
+        }
+
+        if (is_valid) {
+            $(this).attr("data-toggle", "modal");
+            idEmployeeField.removeClass('is-invalid');
+            uploaded_file_field.removeClass('is-invalid');
         }
     })
 
