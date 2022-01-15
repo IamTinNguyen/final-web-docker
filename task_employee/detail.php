@@ -247,8 +247,8 @@ if (isset($_GET['id_task'])) {
                 $print_button_nonsubmit_html = "
                     <form method='POST' >
                         <div class='text-right mt-3'>
-                            <a class='btn btn-primary' href='?type=task_employee&action=view' role='button'>Trở về</a>
-                            <input id='btn_status' data-toggle='modal' data-target='#confirm-employee-nonsubmit' class='btn btn-outline-dark' type='button' value='$status_button' $isDisabled>
+                            <a class='btn btn-outline-dark' href='?type=task_employee&action=view' role='button'>Trở về</a>
+                            <input id='btn_status' data-toggle='modal' data-target='#confirm-employee-nonsubmit' class='btn btn-dark' type='button' value='$status_button' $isDisabled>
                         </div>
                         <div class='modal fade show' id='confirm-employee-nonsubmit'>
                         <div class='modal-dialog'>
@@ -259,11 +259,12 @@ if (isset($_GET['id_task'])) {
                                 </div>
 
                                 <div class='modal-body'>
-                                    Bạn có chắc rằng muốn submit nhiệm vụ không?
+                                Bạn có chắc chắn muốn bắt đầu nhiệm vụ không?
                                 </div>
                                 <div class='modal-footer'>
-                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-outline-dark'  name='btn-task-status'>Đồng ý</button>
-                                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Hủy</button>
+                                <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Hủy</button>
+
+                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-dark'  name='btn-task-status'>Đồng ý</button>
                                 </div>
                             </div>
                         </div>
@@ -312,8 +313,9 @@ if (isset($_GET['id_task'])) {
                                     Bạn có chắc rằng muốn submit nhiệm vụ không?
                                 </div>
                                 <div class='modal-footer'>
-                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-outline-dark'>Đồng ý</button>
-                                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Hủy</button>
+                                <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Hủy</button>
+
+                                    <button type='submit' name='btn-task-submit-ok' class='btn btn-dark'>Đồng ý</button>
                                 </div>
                             </div>
                         </div>

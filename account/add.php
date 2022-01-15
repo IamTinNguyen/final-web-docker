@@ -87,9 +87,8 @@ if (isset($_POST['btn-submit'])) {
                     </div>
                     <span id='size_avartar' style='color: #f33a58;' class='form-message'></span>
                 </div>
-                <div class="text-right mb-3">
-                    <button name='btn_submit_test' id="btn_employee_info" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#change_info">Lưu lại</button>
-
+                <div class="text-right mt-3">
+                    <button name='btn_submit_test' onclick="FileChangeAvatar()" id="btn_employee_info" type="button" class="btn btn-dark" data-toggle="modal" data-target="#change_info">Lưu lại</button>
                 </div>
 
                 <div class="modal fade" id="change_info">
@@ -104,8 +103,9 @@ if (isset($_POST['btn-submit'])) {
                                 Bạn có chắc chắn rằng muốn đổi ảnh đại diện không?
                             </div>
                             <div class="modal-footer">
-                                <button name="btn-submit" type="submit" class="btn btn-outline-dark">Xác nhận</button>
-                                <button data-dismiss="modal" class="btn btn-secondary">Hủy</button>
+                                <button data-dismiss="modal" class="btn btn-outline-secondary">Hủy</button>
+
+                                <button name="btn-submit" type="submit" class="btn btn-dark">Xác nhận</button>
                             </div>
                         </div>
                     </div>

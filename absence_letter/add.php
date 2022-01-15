@@ -192,17 +192,17 @@ if (isset($_POST['btn-submit'])) {
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Xác nhận</h4>
+                                <h4 class="modal-title">Thông báo</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
 
                             <div class="modal-body">
-                                Xác nhận gửi đơn
+                                Bạn có chắc chắn muốn gửi đơn nghỉ phép này?
                             </div>
 
                             <div class="modal-footer">
-                                <button id="btn_letter_submit" name="btn-submit" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#send_letter">Gửi</button>
-                                <button class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <button class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                                <button id="btn_letter_submit" name="btn-submit" type="submit" class="btn btn-dark" data-toggle="modal" data-target="#send_letter">Gửi</button>
                             </div>
                         </div>
                     </div>

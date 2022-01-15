@@ -28,7 +28,7 @@ $(document).ready(function () {
                 id_task: id_task
             },
             dataType: 'json',
-            success: function () {}
+            success: function () { }
         })
         location.href = "?type=task_management&action=detail&id_task=" + id_task;
     })
@@ -58,7 +58,7 @@ $(document).ready(function () {
                     rate: rate,
                 },
                 dataType: 'json',
-                success: function () {}
+                success: function () { }
             })
             location.href = "?type=task_management&action=detail&id_task=" + id_task;
         }
@@ -93,12 +93,12 @@ $(document).ready(function () {
                     is_valid = false;
                 }
             }
-        } 
+        }
 
         if (is_valid) {
             feedbackField.removeClass('is-invalid');
             uploadFilesField.removeClass('is-invalid');
-            $(this).attr('data-toggle', 'modal'); 
+            $(this).attr('data-toggle', 'modal');
         }
     })
 
@@ -381,3 +381,17 @@ sidebarBtn.addEventListener("click", () => {
 
     sidebar.classList.toggle("close");
 });
+
+FileChangeAvatar = () => {
+    let btnAvatarSubmit = document.getElementById('btn_employee_info');
+
+    let fi = document.getElementById('avarta_file');
+    if (fi.value == "") {
+        document.getElementById('size_avartar').innerHTML = 'Vui lòng chọn ảnh để làm ảnh đại diện mới của bạn!';
+        btnAvatarSubmit.disabled = true;
+
+    } else {
+        document.getElementById('size_avartar').innerHTML = '';
+        btnAvatarSubmit.disabled = false;
+    }
+}

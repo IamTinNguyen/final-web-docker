@@ -147,7 +147,7 @@ if (!empty($_SESSION['user'][0]['employee_avatar'])) {
                 ?>
             </ul>
         </li>
-        
+
         <li>
             <a href="?type=reset_password">
                 <i class='bx bx-cog'></i>
@@ -167,16 +167,18 @@ if (!empty($_SESSION['user'][0]['employee_avatar'])) {
             </ul>
         </li>
         <li>
-            <div class="profile-details">
-                <div class="profile-content">
-                    <img src="uploads/<?= $avatar ?>" alt="profileImg">
+            <a href="?type=account&action=view">
+                <div class="profile-details">
+                    <div class="profile-content">
+                        <img src="uploads/<?= $avatar ?>" alt="profileImg">
+                    </div>
+                    <div class="name-job">
+                        <div class="profile_name"><?= $roleName ?></div>
+                        <div class="job"><?= $fullname ?></div>
+                    </div>
+                    <a href="?type=logout"><i class='bx bx-log-out'></i></a>
                 </div>
-                <div class="name-job">
-                    <div class="profile_name"><?= $roleName ?></div>
-                    <div class="job"><?= $fullname ?></div>
-                </div>
-                <i class='bx bx-log-out'></i>
-            </div>
+            </a>
         </li>
     </ul>
 </div>

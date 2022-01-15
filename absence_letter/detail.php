@@ -109,7 +109,7 @@ while ($row = $result->fetch_assoc()) {
                         <tr>
                             <th scope="row">' . ++$index . '</th>
                             <td>' . $file_letter['file_name'] . '</td>
-                            <td class="text-center"><a href="uploads/' . $file_letter['file_name'] . '" download="' . $file_letter['file_name'] . '" class="btn btn-sm btn-secondary">Download</a></td>
+                            <td class="text-center"><a href="uploads/' . $file_letter['file_name'] . '" download="' . $file_letter['file_name'] . '" class="btn btn-sm btn-dark">Download</a></td>
                             
 
                         </tr>

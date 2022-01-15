@@ -33,7 +33,7 @@ $name_department = $name_department[0]['name_department'];
 
 <div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-3" style="font-family:sans-serif;">
     <div class="card-heading mt-5 mb-5">
-        <h2 class="title text-center" style="text-transform:uppercase;"><b>DANH SÁCH NHIỆM VỤ CỦA <?= $name_employee ?></b></h2>
+        <h2 class="title text-center" style="text-transform:uppercase;"><b>DANH SÁCH NHIỆM VỤ CỦA Bạn</b></h2>
     </div>
     <div class="wrapper wrapper--w790">
         <div class="card card-5 p-5">

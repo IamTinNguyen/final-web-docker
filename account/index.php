@@ -76,7 +76,7 @@ while ($row = $result->fetch_assoc()) {
                 </div>
                 <div class="text-right mt-3">
 
-                <a href="?type=account&action=add&id=' . $value['id_employee'] . '" class="btn btn-outline-dark">
+                <a href="?type=account&action=add&id=' . $value['id_employee'] . '" class="btn btn-dark">
                     Chỉnh sửa
                 </a>
                 </div>

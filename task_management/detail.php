@@ -111,51 +111,55 @@ if (isset($_POST['reject-task-btn']) && isset($_POST['feedback'])) {
 }
 ?>
 
-<h3 class="my-4 text-center text-uppercase">CHI TIẾT NHIỆM VỤ "<?= $task_detail[0]['title_task'] ?>"</h3>
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-3" style="font-family:sans-serif;">
+    <div class="card-heading mt-5 mb-5">
+        <h2 class="title text-center" style="text-transform:uppercase;"><b>CHI TIẾT NHIỆM VỤ "<?= $task_detail[0]['title_task'] ?>"</b></h2>
+    </div>
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5 p-5">
+            <div class="form-group">
+                <h5 class="mt-1">Trạng thái hiện tại:</h5>
+                <input disabled value="<?= $name_status[0]['name_status'] ?>" type="text" class="form-control">
+            </div>
 
-<div class="form-group">
-    <h5 class="mt-1">Trạng thái hiện tại:</h5>
-    <input disabled value="<?= $name_status[0]['name_status'] ?>" type="text" class="form-control">
-</div>
+            <div class="form-group">
+                <h5 class="mt-1">Mô tả chi tiết nhiệm vụ:</h5>
+                <textarea disabled rows="5" class="form-control"><?= $task_detail[0]['content_task'] ?></textarea>
+            </div>
 
-<div class="form-group">
-    <h5 class="mt-1">Mô tả chi tiết nhiệm vụ:</h5>
-    <textarea disabled rows="5" class="form-control"><?= $task_detail[0]['content_task'] ?></textarea>
-</div>
+            <?php
+            $deadline_arr = explode(" ", $task_detail[0]['deadline']);
+            $day = date("d/m/Y", strtotime($deadline_arr[0]));
+            ?>
 
-<?php
-$deadline_arr = explode(" ", $task_detail[0]['deadline']);
-$day = date("d/m/Y", strtotime($deadline_arr[0]));
-?>
+            <div class="form-group">
+                <h5 class="mt-1">Thời gian deadline:</h5>
+                <input disabled value="<?= $day . ' ' . $deadline_arr[1] ?>" type="text" class="form-control">
+            </div>
 
-<div class="form-group">
-    <h5 class="mt-1">Thời gian deadline:</h5>
-    <input disabled value="<?= $day . ' ' . $deadline_arr[1] ?>" type="text" class="form-control">
-</div>
+            <?php
+            $submission_content = '';
 
-<?php
-$submission_content = '';
+            foreach (array_reverse($task_detail) as $task_detail_value) {
+                $submission_content = $task_detail_value['submission_content'];
+                if (!empty($submission_content)) {
+                    break;
+                }
+            }
 
-foreach (array_reverse($task_detail) as $task_detail_value) {
-    $submission_content = $task_detail_value['submission_content'];
-    if (!empty($submission_content)) {
-        break;
-    }
-}
-
-if ($id_status > 2) {
-    echo '
+            if ($id_status > 2) {
+                echo '
         <div class="form-group">
             <h5>Nội dung kết quả báo cáo của nhân viên:</h5>
             <textarea disabled rows="5" class="form-control">' . $submission_content . '</textarea>
         </div>
     ';
-}
-?>
+            }
+            ?>
 
-<?php
-if ($id_status  > 2) {
-    echo '
+            <?php
+            if ($id_status  > 2) {
+                echo '
         <h5 class="mt-4 mb-2">Danh sách tệp đính kèm mà nhân viên gửi:</h5>
         <table class="mt-2 table table-hover">
             <thead>
@@ -167,45 +171,45 @@ if ($id_status  > 2) {
             </thead>
             <tbody>
         ';
-    if (isset($submission_files[0]['file'])) {
-        $index = 0;
-        foreach ($submission_files as $submission_file) {
-            echo '
+                if (isset($submission_files[0]['file'])) {
+                    $index = 0;
+                    foreach ($submission_files as $submission_file) {
+                        echo '
                 <tr>
                     <th scope="row">' . ++$index . '</th>
                     <td>' . $submission_file['file'] . '</td>
                     <td class="text-center">
-                        <a href="uploads/' . $submission_file['file'] . '" download="' . $submission_file['file'] . '" class="btn btn-sm btn-danger">Download</a>
+                        <a href="uploads/' . $submission_file['file'] . '" download="' . $submission_file['file'] . '" class="btn btn-sm btn-dark">Download</a>
                     </td>
                 </tr>
             ';
-        }
-    } else {
-        echo '
+                    }
+                } else {
+                    echo '
             <tr>
                 <td class="text-center" colspan="3">Chưa có tệp đính kèm</td>
             </tr>
         ';
-    }
+                }
 
-    echo '
+                echo '
         </tbody>
     </table>
     ';
-}
-?>
+            }
+            ?>
 
-<?php
-if ($id_status == 0) {
-    echo '
+            <?php
+            if ($id_status == 0) {
+                echo '
         <div class="text-right">
             <button type="button" data-toggle="modal" data-target="#confirm-delete" name="cancel-btn" class="btn btn-danger">Hủy nhiệm vụ</button>
         </div>
     ';
-}
+            }
 
-if ($id_status == 3) {
-    $sql = "
+            if ($id_status == 3) {
+                $sql = "
         SELECT IF (
             (  
                 SELECT      time_progress 
@@ -219,19 +223,19 @@ if ($id_status == 3) {
                     WHERE   id_task = 12
                 ), 0, 1);
     ";
-    $result = $conn->query($sql);
+                $result = $conn->query($sql);
 
-    while ($row = $result->fetch_assoc()) {
-        $turn_in_result_arr[] = $row;
-    }
+                while ($row = $result->fetch_assoc()) {
+                    $turn_in_result_arr[] = $row;
+                }
 
-    $turn_in_result = array_values($turn_in_result_arr[0])[0];
-    $rate_flag = '';
-    if ($turn_in_result == 1) {
-        $rate_flag = 'disabled';
-    }
+                $turn_in_result = array_values($turn_in_result_arr[0])[0];
+                $rate_flag = '';
+                if ($turn_in_result == 1) {
+                    $rate_flag = 'disabled';
+                }
 
-    echo '
+                echo '
         <h3 class="mt-5 mb-3 text-center text-uppercase">THÔNG TIN PHẢN HỒI CHO NHÂN VIÊN</h3>
         
         <form method="POST" enctype="multipart/form-data">
@@ -263,9 +267,9 @@ if ($id_status == 3) {
                 </select>
             </div>
 
-            <div class="form-group text-right">
-                <button type="button" data-target="#confirm-reject" id="reject-task-btn" class="btn btn-danger">Bác bỏ</button>
-                <button type="button" data-id=' . $id_task . ' id="approve-task-btn" class="btn btn-success">Chấp thuận</button>
+            <div class="form-group text-right mt-3">
+                <button type="button" data-target="#confirm-reject" id="reject-task-btn" class="btn btn-secondary">Bác bỏ</button>
+                <button type="button" data-id=' . $id_task . ' id="approve-task-btn" class="btn btn-dark">Chấp thuận</button>
             </div>
 
             <div class="modal fade" id="confirm-reject">
@@ -280,146 +284,146 @@ if ($id_status == 3) {
                             Bạn có chắc rằng muốn bác bỏ nhiệm vụ <strong>"' . $task_detail[0]['title_task'] . '"</strong> không?
                         </div>
                         <div class="modal-footer">
-                            <button name="reject-task-btn" type="submit" id="reject-task-confirm-btn" class="btn btn-danger">Đồng ý bác bỏ</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bác bỏ</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                            <button name="reject-task-btn" type="submit" id="reject-task-confirm-btn" class="btn btn-dark">Đồng ý</button>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
     ';
-}
-?>
+            }
+            ?>
 
-<div class="modal fade" id="confirm-delete">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Hủy nhiệm vụ</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal fade" id="confirm-delete">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Hủy nhiệm vụ</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                            Bạn có chắc rằng muốn hủy nhiệm vụ <strong>"<?= $task_detail[0]['title_task'] ?>"</strong> không?
+                        </div>
+                        <div class="modal-footer">
+                            <button id="delete-btn" data-id=<?= $task_detail[0]['id_task'] ?> type="button" class="btn btn-danger" data-dismiss="modal">Đồng ý hủy</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="modal-body">
-                Bạn có chắc rằng muốn hủy nhiệm vụ <strong>"<?= $task_detail[0]['title_task'] ?>"</strong> không?
-            </div>
-            <div class="modal-footer">
-                <button id="delete-btn" data-id=<?= $task_detail[0]['id_task'] ?> type="button" class="btn btn-danger" data-dismiss="modal">Đồng ý hủy</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
-            </div>
-        </div>
-    </div>
-</div>
+            <h3 class="mt-5 mb-4 text-center text-uppercase">LỊCH SỬ TIẾN TRÌNH THỰC HIỆN NHIỆM VỤ</h3>
+            <hr>
 
-<h3 class="mt-5 mb-4 text-center text-uppercase">LỊCH SỬ TIẾN TRÌNH THỰC HIỆN NHIỆM VỤ</h3>
-<hr>
-
-<?php
-$sql = "
+            <?php
+            $sql = "
     SELECT      DISTINCT time_progress 
     FROM        task_progress 
     WHERE       id_task = $id_task 
     ORDER BY    time_progress ASC;
 ";
 
-$result = $conn->query($sql);
+            $result = $conn->query($sql);
 
-while ($row = $result->fetch_assoc()) {
-    $time_stamp_arr[] = $row;
-}
+            while ($row = $result->fetch_assoc()) {
+                $time_stamp_arr[] = $row;
+            }
 
-$current_index = 0;
+            $current_index = 0;
 
-foreach ($time_stamp_arr as $time_stamp) {
-    echo '<h4 class="mt-4"> Tiến trình ' . ++$current_index . ':</h4>';
-    $current_history_time_stamp = $time_stamp['time_progress'];
+            foreach ($time_stamp_arr as $time_stamp) {
+                echo '<h4 class="mt-4"> Tiến trình ' . ++$current_index . ':</h4>';
+                $current_history_time_stamp = $time_stamp['time_progress'];
 
-    $sql = "
+                $sql = "
         SELECT  * 
         FROM    task_progress 
         WHERE   id_task = $id_task  AND 
                 time_progress = '$current_history_time_stamp'
     ";
-    $result = $conn->query($sql);
+                $result = $conn->query($sql);
 
-    while ($row = $result->fetch_assoc()) {
-        $history_arr[] = $row;
-    }
+                while ($row = $result->fetch_assoc()) {
+                    $history_arr[] = $row;
+                }
 
-    $date_arr = explode(" ", $current_history_time_stamp);
-    $day = date("d/m/Y", strtotime($date_arr[0]));
+                $date_arr = explode(" ", $current_history_time_stamp);
+                $day = date("d/m/Y", strtotime($date_arr[0]));
 
-    $current_id_status = $history_arr[0]['id_status'];
-    $sql = "
+                $current_id_status = $history_arr[0]['id_status'];
+                $sql = "
         SELECT  name_status
         FROM    status 
         WHERE   id_status = $current_id_status
     ";
-    $result = $conn->query($sql);
+                $result = $conn->query($sql);
 
-    $name_status = [];
-    while ($row = $result->fetch_assoc()) {
-        $name_status[] = $row;
-    }
+                $name_status = [];
+                while ($row = $result->fetch_assoc()) {
+                    $name_status[] = $row;
+                }
 
-    $current_name_status = $name_status[0]['name_status'];
+                $current_name_status = $name_status[0]['name_status'];
 
-    if (isset($history_arr[0]['feedback'])) {
-        $current_feedback = $history_arr[0]['feedback'];
-    }
+                if (isset($history_arr[0]['feedback'])) {
+                    $current_feedback = $history_arr[0]['feedback'];
+                }
 
-    $current_submission_content = $history_arr[0]['submission_content'];
+                $current_submission_content = $history_arr[0]['submission_content'];
 
-    $file_is_uploaded = false;
-    if (isset($history_arr[0]['file'])) {
-        $file_is_uploaded = true;
-    }
+                $file_is_uploaded = false;
+                if (isset($history_arr[0]['file'])) {
+                    $file_is_uploaded = true;
+                }
 
-    echo '
+                echo '
         <div class="mb-4">
             <div> <span class="text-decoration-underline">Thời gian ghi nhận:</span> ' . $day . ' ' . $date_arr[1] . '</div>
             <div class="my-1"><span class="text-decoration-underline">Trạng thái thực hiện:</span> ' . $current_name_status . '</div>
         ';
-    switch ($current_id_status) {
-        case 0:
-            echo '<div class="my-1 text-decoration-underline">Các tệp đính kèm từ trưởng phòng: </div>';
-            break;
-        case 3:
-            echo '
+                switch ($current_id_status) {
+                    case 0:
+                        echo '<div class="my-1 text-decoration-underline">Các tệp đính kèm từ trưởng phòng: </div>';
+                        break;
+                    case 3:
+                        echo '
                 <div><span class="my-1 text-decoration-underline">Nội dung kết quả báo cáo của nhân viên:</span> ' . $current_submission_content . '</div>
             ';
 
-            if ($file_is_uploaded) {
-                echo '
+                        if ($file_is_uploaded) {
+                            echo '
                     <div class="my-1 text-decoration-underline">Các tệp đính kèm từ nhân viên: </div>
                 ';
-            } else {
-                echo '<hr>';
-            }
+                        } else {
+                            echo '<hr>';
+                        }
 
-            break;
-        case 4:
-            echo '
+                        break;
+                    case 4:
+                        echo '
                 <div><span class="my-1 text-decoration-underline">Phản hồi từ trưởng phòng:</span> ' . $current_feedback . '</div>
             ';
 
-            if ($file_is_uploaded) {
-                echo '
+                        if ($file_is_uploaded) {
+                            echo '
                     <div class="my-1 text-decoration-underline">Các tệp đính kèm từ trưởng phòng: </div>
                 ';
-            } else {
-                echo '<hr>';
-            }
-            break;
-        case 5:
-            echo '
+                        } else {
+                            echo '<hr>';
+                        }
+                        break;
+                    case 5:
+                        echo '
                 <div class="my-1">Mức độ đánh giá: </div>
                 <div class="my-1">Trạng thái hoàn thành: </div>
             ';
-            break;
-    }
+                        break;
+                }
 
-    if ($file_is_uploaded) {
-        echo '
+                if ($file_is_uploaded) {
+                    echo '
             <table class="mt-2 table table-hover">
                 <thead>
                     <tr>
@@ -431,31 +435,36 @@ foreach ($time_stamp_arr as $time_stamp) {
             <tbody>
         ';
 
-        $index = 0;
+                    $index = 0;
 
-        foreach ($history_arr as $history_value) {
-            echo '
+                    foreach ($history_arr as $history_value) {
+                        echo '
                 <tr>
                     <th scope="row">' . ++$index . '</th>
                     <td>' . $history_value['file'] . '</td>
                     <td class="text-center">
-                        <a href="uploads/' . $history_value['file'] . '" download="' . $history_value['file'] . '" class="btn btn-sm btn-danger">Download</a>
+                        <a href="uploads/' . $history_value['file'] . '" download="' . $history_value['file'] . '" class="btn btn-sm btn-dark">Download</a>
                     </td>
                 </tr>
             ';
-        }
+                    }
 
-        echo '
+                    echo '
                 </tbody>
             </table>
         ';
-    }
+                }
 
-    echo '
+                echo '
         </div>
+
     ';
 
-    unset($history_arr);
-    unset($name_status);
-}
-?>
+                unset($history_arr);
+                unset($name_status);
+            }
+            echo "
+            </div>
+            </div>
+            </div>";
+            ?>
