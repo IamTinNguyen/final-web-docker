@@ -70,11 +70,11 @@ while ($row = $result->fetch_assoc()) {
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label for="role">Chức vụ:</label>
                     <input id="role" value="' . $value['name_role'] . '" class="form-control" disabled>
                 </div>
-                <div class="text-right">
+                <div class="text-right mt-3">
 
                 <a href="?type=account&action=add&id=' . $value['id_employee'] . '" class="btn btn-outline-dark">
                     Chỉnh sửa

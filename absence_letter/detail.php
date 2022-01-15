@@ -27,62 +27,62 @@ while ($row = $result->fetch_assoc()) {
         <div class="card card-5 p-5">
             <?php
             echo '
-        <form>
-            <div class="row mb-3">
+            <form>
+                <div class="row mb-3">
 
-                <div class="col">
-                    <label for="full_name">Họ và tên:</label>
-                    <input id="full_name" type="text" value="' . $output[0]['full_name'] . '" class="form-control" disabled>
+                    <div class="col">
+                        <label for="full_name">Họ và tên:</label>
+                        <input id="full_name" type="text" value="' . $output[0]['full_name'] . '" class="form-control" disabled>
+                    </div>
+
+                    <div class="col">
+                        <label for="tittle">Tiêu đề:</label>
+                        <input id="tittle" type="text" value="' . $output[0]['tittle_letter'] . '" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+
+                    <div class="col">
+                        <label class="form-label" for="textAreaExample">Nội dung:</label>
+                        <textarea class="form-control" id="textAreaExample1" rows="4" disabled>' . $output[0]['content_letter'] . '</textarea>
+                    </div>
+                    <div class="col">
+                        <label class="form-label" for="textAreaExample">Mô tả chi tiết:</label>
+                        <textarea class="form-control" id="textAreaExample1" rows="4" disabled>' . $output[0]['description_letter'] . '</textarea>
+                    </div>
                 </div>
 
-                <div class="col">
-                    <label for="tittle">Tiêu đề:</label>
-                    <input id="tittle" type="text" value="' . $output[0]['tittle_letter'] . '" class="form-control" disabled>
-                </div>
-            </div>
-            <div class="row mb-3">
+                <div class="row mb-3">
 
-                <div class="col">
-                    <label class="form-label" for="textAreaExample">Nội dung:</label>
-                    <textarea class="form-control" id="textAreaExample1" rows="4" disabled>' . $output[0]['content_letter'] . '</textarea>
-                </div>
-                <div class="col">
-                    <label class="form-label" for="textAreaExample">Mô tả chi tiết:</label>
-                    <textarea class="form-control" id="textAreaExample1" rows="4" disabled>' . $output[0]['description_letter'] . '</textarea>
-                </div>
-            </div>
+                    <div class="col">
+                        <label for="day_sent">Ngày gửi:</label>
+                        <input id="day_sent" type="text" value="' . strftime('%d-%m-%Y', strtotime($output[0]['day_sent'])) . '" class="form-control" disabled>
+                    </div>
 
-            <div class="row mb-3">
-
-                <div class="col">
-                    <label for="day_sent">Ngày gửi:</label>
-                    <input id="day_sent" type="text" value="' . strftime('%d-%m-%Y', strtotime($output[0]['day_sent'])) . '" class="form-control" disabled>
+                    <div class="col">
+                        <label for="day_start">Ngày bắt đầu nghỉ phép:</label>
+                        <input id="day_start" type="text" value="' . strftime('%d-%m-%Y', strtotime($output[0]['day_start'])) . '" class="form-control" disabled>
+                    </div>
                 </div>
+                <div class="row mb-3">
 
-                <div class="col">
-                    <label for="day_start">Ngày bắt đầu nghỉ phép:</label>
-                    <input id="day_start" type="text" value="' . strftime('%d-%m-%Y', strtotime($output[0]['day_start'])) . '" class="form-control" disabled>
-                </div>
-            </div>
-            <div class="row mb-3">
+                    <div class="col">
+                        <label for="days_off">Ngày bắt đầu nghỉ phép:</label>
+                        <input id="days_off" type="text" value="' . $output[0]['days_off'] . '" class="form-control" disabled>
+                    </div>
 
-                <div class="col">
-                    <label for="days_off">Ngày bắt đầu nghỉ phép:</label>
-                    <input id="days_off" type="text" value="' . $output[0]['days_off'] . '" class="form-control" disabled>
+                    <div class="col">
+                        <label for="day_finish">Ngày làm lại:</label>
+                        <input id="day_finish" type="text" value="' . strftime('%d-%m-%Y', strtotime($output[0]['day_finish'])) . '" class="form-control" disabled>
+                    </div>
                 </div>
 
-                <div class="col">
-                    <label for="day_finish">Ngày làm lại:</label>
-                    <input id="day_finish" type="text" value="' . strftime('%d-%m-%Y', strtotime($output[0]['day_finish'])) . '" class="form-control" disabled>
+                <div class="form-group">
+                    <label for="status">Trạng thái:</label>
+                    <input id="status" type="text" value="' . ($output[0]['letter_status'] == 0 ? 'Chưa duyệt' : ($output[0]['letter_status'] == 1 ? 'Đã duyệt' : 'Đã từ chối')) . '" class="form-control" disabled>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="status">Trạng thái:</label>
-                <input id="status" type="text" value="' . ($output[0]['letter_status'] == 0 ? 'Chưa duyệt' : ($output[0]['letter_status'] == 1 ? 'Đã duyệt' : 'Đã từ chối')) . '" class="form-control" disabled>
-            </div>
-        </form>
-        ';
+            </form>
+            ';
             $sql = "SELECT * FROM letter_file WHERE id_letter = $id_letter";
             $result = $conn->query($sql);
 
@@ -90,31 +90,37 @@ while ($row = $result->fetch_assoc()) {
                 $file[] = $row;
             }
             echo '
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Tên tệp đính kèm</th>
-                <th scope="col" class="text-center">Nội dung tệp</th>
-            </tr>
-        </thead>
-        <tbody>
-    ';
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Tên tệp đính kèm</th>
+                            <th scope="col" class="text-center">Nội dung tệp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                ';
             if ($file == null) {
                 echo '<th colspan="3" class="text-center">Không có tệp đính kèm</th>';
             }
             $index = 0;
             foreach ($file as $file_letter) {
                 echo '
-            <tr>
-                <th scope="row">' . ++$index . '</th>
-                <td>' . $file_letter['file_name'] . '</td>
-                <td class="text-center"><img height="150px" src="uploads/' . $file_letter['file_name'] . '"></td>
-            </tr>
-    ';
+                        <tr>
+                            <th scope="row">' . ++$index . '</th>
+                            <td>' . $file_letter['file_name'] . '</td>
+                            <td class="text-center"><a href="uploads/' . $file_letter['file_name'] . '" download="' . $file_letter['file_name'] . '" class="btn btn-sm btn-secondary">Download</a></td>
+                            
+
+                        </tr>
+
+                ';
             }
+            echo '</tbody> 
+                </table> ';
             if ($output[0]['letter_status'] == 0) {
                 echo '
+
             <div class="text-right mt-3 mb-3 ml-2">
                 <a data-toggle="modal" href="#approve" class="btn btn-outline-dark">
                     Phê duyệt
