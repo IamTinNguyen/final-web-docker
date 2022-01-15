@@ -2,9 +2,9 @@
 
 // require 'vendor/autoload.php';
 
-define('HOST', 'mysql-server');
+define('HOST', 'localhost');
 define('USER', 'root');
-define('PASS', 'root');
+define('PASS', '');
 define('DB', 'web_final');
 
 function open_database()

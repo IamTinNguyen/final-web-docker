@@ -240,7 +240,7 @@ if ($id_status == 3) {
                 <textarea name="feedback" id="feedback" rows="5" class="form-control"></textarea>
             </div>
 
-            <div class="form-group mb-4">
+            <div class="form-group mb-4" id="uploaded-files-feedback-wrapper">
                 <h5>Các tập tin đính kèm</h5>
                 <div class="custom-file">
                     <input name="uploaded_files[]" multiple type="file" class="custom-file-input">

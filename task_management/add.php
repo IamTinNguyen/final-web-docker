@@ -55,17 +55,6 @@ if (isset($_POST['id_employee']) && isset($_POST['title_task']) && isset($_POST[
 
 $is_validated = true;
 if (isset($_POST['btn-submit'])) {
-    if (!empty($_FILES['uploaded_files']['name'][0])) {
-        $count_files = count($_FILES['uploaded_files']['name']);
-        for ($i = 0; $i < $count_files; $i++) {
-            $file_name = $_FILES['uploaded_files']['name'][$i];
-            $file_size = $_FILES['uploaded_files']['size'][$i];
-            if ($file_size > 50000) {
-                $is_validated = false;
-            }
-        }
-    }
-
     if ($is_validated) {
         if (isset($_GET['id_task'])) {
             $sql = "
@@ -166,11 +155,10 @@ if (isset($_POST['btn-submit'])) {
                     <input required value="<?= !empty($deadline) ? date("Y-m-d\TH:i:s", strtotime($deadline)) : '' ?>" name="deadline_task" id="deadline-task" type="datetime-local" class="form-control">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="task-management-uploaded-files-wrapper">
                     <label for="upload-files">Các tập tin đính kèm</label>
                     <div class="custom-file">
-                        <input id="uploaded-files" name="uploaded_files[]" multiple type="file" class="<?= (!$is_validated) ? 'is-invalid' : '' ?> custom-file-input">
-                        <?= (!$is_validated) ? '<div class="invalid-feedback">Vui lòng nhập file có kích thước nhỏ hơn 5MB!</div>' : '' ?>
+                        <input id="uploaded-files" name="uploaded_files[]" multiple type="file" class="custom-file-input">
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
                 </div>
