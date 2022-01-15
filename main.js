@@ -19,21 +19,6 @@ $(document).ready(function () {
         })
     })
 
-    $("#delete-btn").click(function () {
-        var id_task = $(this).attr('data-id');
-        $.ajax({
-            url: 'task_management/cancel_task.php',
-            type: 'GET',
-            data: {
-                id_task: id_task
-            },
-            dataType: 'json',
-            success: function () {
-                console.log("tin ne");
-            }
-        })
-    })
-
     $(".edit-task-btn").click(function (e) {
         location.href = "?type=task_management&action=add&id_task=" + $(this).data("id");
     })

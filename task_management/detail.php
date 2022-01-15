@@ -109,6 +109,19 @@ if (isset($_POST['reject-task-btn']) && isset($_POST['feedback'])) {
 
     header("Location: ?type=task_management&action=detail&id_task=" . $id_task);
 }
+
+if (isset($_POST['delete-task-btn'])) {
+    $time_progress = date("Y-m-d H:i:s");
+
+    $sql = "
+        INSERT INTO task_progress(id_task, id_status, time_progress) 
+        VALUES($id_task, 1, '$time_progress')
+    ";
+    $conn->query($sql);
+
+    header("Location: ?type=task_management&action=detail&id_task=" . $id_task);
+}
+
 ?>
 
 <div class="page-wrapper bg-gra-03 p-t-45 p-b-50 ml-4 mr-5 pr-5 mb-5 mt-3" style="font-family:sans-serif;">
@@ -210,19 +223,19 @@ if (isset($_POST['reject-task-btn']) && isset($_POST['feedback'])) {
 
             if ($id_status == 3) {
                 $sql = "
-        SELECT IF (
-            (  
-                SELECT      time_progress 
-                FROM        task_progress 
-                WHERE       id_task = 12 AND 
-                            id_status = 3 
-                ORDER BY    id_task_progress DESC 
-                LIMIT       1) < (
-                    SELECT  deadline 
-                    FROM    task 
-                    WHERE   id_task = 12
-                ), 0, 1);
-    ";
+                    SELECT IF (
+                        (  
+                            SELECT      time_progress 
+                            FROM        task_progress 
+                            WHERE       id_task = 12 AND 
+                                        id_status = 3 
+                            ORDER BY    id_task_progress DESC 
+                            LIMIT       1) < (
+                                SELECT  deadline 
+                                FROM    task 
+                                WHERE   id_task = 12
+                            ), 0, 1);
+                ";
                 $result = $conn->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
@@ -236,62 +249,63 @@ if (isset($_POST['reject-task-btn']) && isset($_POST['feedback'])) {
                 }
 
                 echo '
-        <h3 class="mt-5 mb-3 text-center text-uppercase">THÔNG TIN PHẢN HỒI CHO NHÂN VIÊN</h3>
-        
-        <form method="POST" enctype="multipart/form-data">
-            <div class="form-group" id="wrapper-feedback">
-                <h5>Nhận xét</h5>
-                <textarea name="feedback" id="feedback" rows="5" class="form-control"></textarea>
-            </div>
-
-            <div class="form-group mb-4" id="uploaded-files-feedback-wrapper">
-                <h5>Các tập tin đính kèm</h5>
-                <div class="custom-file">
-                    <input name="uploaded_files[]" multiple type="file" class="custom-file-input">
-                    <label class="custom-file-label" for="customFile">Choose file</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <h5>Gia hạn deadline</h5>
-                <input name="deadline_extension" type="datetime-local" class="form-control">
-            </div>
-
-            <div class="form-group" id="wrapper-rate-field">
-                <h5>Mức độ đánh giá</h5>
-                <select id="rate-select-box" class="form-select">
-                    <option value=0 selected>Vui lòng đánh giá nhân viên này</option>
-                    <option value=1>Bad</option>
-                    <option value=2>Ok</option>
-                    <option ' . $rate_flag . ' value=3>Good</option>
-                </select>
-            </div>
-
-            <div class="form-group text-right mt-3">
-                <button type="button" data-target="#confirm-reject" id="reject-task-btn" class="btn btn-secondary">Bác bỏ</button>
-                <button type="button" data-id=' . $id_task . ' id="approve-task-btn" class="btn btn-dark">Chấp thuận</button>
-            </div>
-
-            <div class="modal fade" id="confirm-reject">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Bác bỏ nhiệm vụ</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="mt-5 mb-3 text-center text-uppercase">THÔNG TIN PHẢN HỒI CHO NHÂN VIÊN</h3>
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="form-group" id="wrapper-feedback">
+                            <h5>Nhận xét</h5>
+                            <textarea name="feedback" id="feedback" rows="5" class="form-control"></textarea>
                         </div>
 
-                        <div class="modal-body">
-                            Bạn có chắc rằng muốn bác bỏ nhiệm vụ <strong>"' . $task_detail[0]['title_task'] . '"</strong> không?
+                        <div class="form-group mb-4" id="uploaded-files-feedback-wrapper">
+                            <h5>Các tập tin đính kèm</h5>
+                            <div class="custom-file">
+                                <input name="uploaded_files[]" multiple type="file" class="custom-file-input">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
-                            <button name="reject-task-btn" type="submit" id="reject-task-confirm-btn" class="btn btn-dark">Đồng ý</button>
+
+                        <div class="form-group">
+                            <h5>Gia hạn deadline</h5>
+                            <input name="deadline_extension" type="datetime-local" class="form-control">
                         </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    ';
+
+                        <div class="form-group" id="wrapper-rate-field">
+                            <h5>Mức độ đánh giá</h5>
+                            <select id="rate-select-box" class="form-select">
+                                <option value=0 selected>Vui lòng đánh giá nhân viên này</option>
+                                <option value=1>Bad</option>
+                                <option value=2>Ok</option>
+                                <option ' . $rate_flag . ' value=3>Good</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group text-right mt-3">
+                            <button type="button" data-target="#confirm-reject" id="reject-task-btn" class="btn btn-secondary">Bác bỏ</button>
+                            <button type="button" data-id=' . $id_task . ' id="approve-task-btn" class="btn btn-dark">Chấp thuận</button>
+                        </div>
+
+                        <div class="modal fade" id="confirm-reject">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Bác bỏ nhiệm vụ</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        Bạn có chắc rằng muốn bác bỏ nhiệm vụ <strong>"' . $task_detail[0]['title_task'] . '"</strong> không?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                                        <button name="reject-task-btn" type="submit" id="reject-task-confirm-btn" class="btn btn-dark">Đồng ý</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                ';
             }
             ?>
 
@@ -308,8 +322,9 @@ if (isset($_POST['reject-task-btn']) && isset($_POST['feedback'])) {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Không</button>
-
-                            <button id="delete-btn" data-id=<?= $task_detail[0]['id_task'] ?> type="button" class="btn btn-dark" data-dismiss="modal">Đồng ý hủy</button>
+                            <form method="POST">
+                                <button name="delete-task-btn" type="submit" class="btn btn-dark">Đồng ý hủy</button>
+                            </form>
                         </div>
                     </div>
                 </div>

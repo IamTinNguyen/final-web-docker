@@ -164,7 +164,6 @@ if (isset($_POST['btn-submit'])) {
                 </div>
                 <div class="form-group text-right">
                     <button id="add-task-btn" name="btn-submit" type="submit" class="btn btn-dark">Submit</button>
-
                 </div>
             </form>
         </div>
