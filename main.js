@@ -28,9 +28,10 @@ $(document).ready(function () {
                 id_task: id_task
             },
             dataType: 'json',
-            success: function () { }
+            success: function () {
+                console.log("tin ne");
+            }
         })
-        location.href = "?type=task_management&action=detail&id_task=" + id_task;
     })
 
     $(".edit-task-btn").click(function (e) {

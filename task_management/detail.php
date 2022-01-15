@@ -203,7 +203,7 @@ if (isset($_POST['reject-task-btn']) && isset($_POST['feedback'])) {
             if ($id_status == 0) {
                 echo '
         <div class="text-right">
-            <button type="button" data-toggle="modal" data-target="#confirm-delete" name="cancel-btn" class="btn btn-danger">Hủy nhiệm vụ</button>
+            <button type="button" data-toggle="modal" data-target="#confirm-delete" name="cancel-btn" class="btn btn-dark mt-3">Hủy nhiệm vụ</button>
         </div>
     ';
             }
@@ -307,8 +307,9 @@ if (isset($_POST['reject-task-btn']) && isset($_POST['feedback'])) {
                             Bạn có chắc rằng muốn hủy nhiệm vụ <strong>"<?= $task_detail[0]['title_task'] ?>"</strong> không?
                         </div>
                         <div class="modal-footer">
-                            <button id="delete-btn" data-id=<?= $task_detail[0]['id_task'] ?> type="button" class="btn btn-danger" data-dismiss="modal">Đồng ý hủy</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Không</button>
+
+                            <button id="delete-btn" data-id=<?= $task_detail[0]['id_task'] ?> type="button" class="btn btn-dark" data-dismiss="modal">Đồng ý hủy</button>
                         </div>
                     </div>
                 </div>
