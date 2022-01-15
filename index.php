@@ -97,7 +97,7 @@ if (!$privilegeResult) {
                 } else if (isset($_GET['type'])) {
                     require_once($_GET['type'] . '.php');
                 } else {
-                    require_once "dashboard.php";
+                    require_once "account/index.php";
                 }
                 ?>
             </div>

@@ -9,22 +9,19 @@ if (isset($_SESSION['user'])) {
 }
 
 require_once('db.php');
-$error = '';
 
-$user = '';
-$pass = '';
-
+$error = $user = $pass = '';
 
 if (isset($_POST['user']) && isset($_POST['pass'])) {
     $user = $_POST['user'];
     $pass = $_POST['pass'];
 
     if (empty($user)) {
-        $error = 'Please enter your username';
+        $error = 'Please enter your username!';
     } else if (empty($pass)) {
-        $error = 'Please enter your password';
+        $error = 'Please enter your password!';
     } else if (strlen($pass) < 6) {
-        $error = 'Password must have at least 6 characters';
+        $error = 'Password must have at least 6 characters!';
     } else {
         $result = login($user, $pass);
         if ($result['code'] == 0) {
@@ -57,70 +54,61 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>LOGIN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
     <link rel="stylesheet" href="/style.css">
-
 </head>
 
-
 <body class="styleLogin">
-
     <!-- partial:index.partial.html -->
     <div class="box-form">
         <div class="left">
             <div class="overlay">
-                <h1>Welcome to our website</h1>
-                <p>Employee Managerment Services</p>
+                <h1 class="mt-4 ml-2 font-weight-bold">Employee Management Services</h1>
+                <hr style="width:100%; background-color:#b6b0b08a" size="0.5px">
                 <span>
-                    <p>Contact us</p>
-                    <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                    <a href="#"><i class="fa fa-yahoo"></i></a>
                 </span>
             </div>
         </div>
 
-
         <div class="right">
-            <h5>Login</h5>
-            <p>Chào mừng bạn đến với trang web của chúng tôi, hãy đăng nhập bằng tài khoản đã được cấp của bạn</p>
-            <form method="post" action="" class="border rounded w-100 mb-5 mx-auto px-3 pt-3 bg-light">
-                <div class="inputs">
+            <h5 class="font-weight-bold">Login</h5>
+            <p class="mb-4"> Welcome to our employee management services website. To begin, please log in!</p>
+            <form method="post">
+                <div class="form-group">
                     <input value="<?= $user ?>" name="user" id="user" type="text" class="form-control" placeholder="Username">
-                    <br>
+                </div>
+                <div class="form-group">
                     <input name="pass" value="<?= $pass ?>" id="password" type="password" class="form-control" placeholder="Password">
                 </div>
-                <br>
+
+                <div class="form-group form-check">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <label id="remeber-me-label" class="form-check-label" for="inlineCheckbox1">Remeber me</label>
+                </div>
+
                 <div class="form-group">
-                    <?php
-                    if (!empty($error)) {
-                        echo "<div class='alert alert-danger' style = 'color: #f33a58;'>$error</div>";
-                    }
-                    ?>
-                </div>
-                <br>
-
-                <div class="remember-me--forget-password">
-
-                    <div class="form-group">
-                        <input <?= isset($_POST['remember']) ? 'checked' : '' ?> name="remember" type="checkbox" class="custom-control-input" id="remember" />
-                        <span class="text-checkbox">Remember me</span>
-                    </div>
-
+                    <div class="text-danger text-center" name="pass"><?= $error ?></div>
                 </div>
 
-
-                <br>
                 <button class="btn btn-success px-5">Login</button>
+
             </form>
         </div>
-
+        </form>
     </div>
-
+    </div>
 </body>
 
 </html>
